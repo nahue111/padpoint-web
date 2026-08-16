@@ -25,4 +25,39 @@
     background-color: #0066ff;
     color: #ffffff;
   }
+
+  /* --- Cursor paleta de pádel ---------------------------------------------
+     Solo donde hay mouse de verdad: en touch no hay cursor y en híbridos
+     evita comportamientos raros.
+
+     El contorno blanco grueso del SVG no es decorativo: es lo único que
+     separa el cursor del footer azul y del video del inicio.
+
+     El hotspot va en 4 4, la punta de la cabeza de la paleta, para que el
+     punto de clic caiga donde el usuario lo espera.
+
+     Los campos de texto conservan la barra de texto: sobre un input hace
+     falta ver dónde se va a escribir, y ahí la paleta estorba. */
+  @media (hover: hover) and (pointer: fine) {
+    body {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cg transform='translate(9.8 10.4) rotate(32)'%3E%3Cg stroke='%23ffffff' stroke-width='4.5' stroke-linejoin='round'%3E%3Cpath d='M0 -9.6c4.9 0 7.6 4.1 7.6 9.1 0 4.6-2.6 8.3-5.6 9.2l0 2.6 1.5 0 0 8.3-7 0 0-8.3 1.5 0 0-2.6c-3-0.9-5.6-4.6-5.6-9.2 0-5 2.7-9.1 7.6-9.1Z'/%3E%3C/g%3E%3Cpath fill='%230047b3' d='M0 -9.6c4.9 0 7.6 4.1 7.6 9.1 0 4.6-2.6 8.3-5.6 9.2l0 2.6 1.5 0 0 8.3-7 0 0-8.3 1.5 0 0-2.6c-3-0.9-5.6-4.6-5.6-9.2 0-5 2.7-9.1 7.6-9.1Z'/%3E%3Cg fill='%23ffffff' fill-opacity='0.5'%3E%3Ccircle cx='-2.9' cy='-4' r='1.1'/%3E%3Ccircle cx='0' cy='-4' r='1.1'/%3E%3Ccircle cx='2.9' cy='-4' r='1.1'/%3E%3Ccircle cx='-2.9' cy='-0.6' r='1.1'/%3E%3Ccircle cx='0' cy='-0.6' r='1.1'/%3E%3Ccircle cx='2.9' cy='-0.6' r='1.1'/%3E%3Ccircle cx='-1.5' cy='2.8' r='1.1'/%3E%3Ccircle cx='1.5' cy='2.8' r='1.1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+          4 4,
+        auto;
+    }
+
+    a,
+    button,
+    label,
+    select,
+    [role='button'] {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cg transform='translate(9.8 10.4) rotate(32)'%3E%3Cg stroke='%23ffffff' stroke-width='4.5' stroke-linejoin='round'%3E%3Cpath d='M0 -9.6c4.9 0 7.6 4.1 7.6 9.1 0 4.6-2.6 8.3-5.6 9.2l0 2.6 1.5 0 0 8.3-7 0 0-8.3 1.5 0 0-2.6c-3-0.9-5.6-4.6-5.6-9.2 0-5 2.7-9.1 7.6-9.1Z'/%3E%3C/g%3E%3Cpath fill='%23c6f24a' d='M0 -9.6c4.9 0 7.6 4.1 7.6 9.1 0 4.6-2.6 8.3-5.6 9.2l0 2.6 1.5 0 0 8.3-7 0 0-8.3 1.5 0 0-2.6c-3-0.9-5.6-4.6-5.6-9.2 0-5 2.7-9.1 7.6-9.1Z'/%3E%3Cg fill='%232c3d00' fill-opacity='0.5'%3E%3Ccircle cx='-2.9' cy='-4' r='1.1'/%3E%3Ccircle cx='0' cy='-4' r='1.1'/%3E%3Ccircle cx='2.9' cy='-4' r='1.1'/%3E%3Ccircle cx='-2.9' cy='-0.6' r='1.1'/%3E%3Ccircle cx='0' cy='-0.6' r='1.1'/%3E%3Ccircle cx='2.9' cy='-0.6' r='1.1'/%3E%3Ccircle cx='-1.5' cy='2.8' r='1.1'/%3E%3Ccircle cx='1.5' cy='2.8' r='1.1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+          4 4,
+        pointer;
+    }
+
+    input,
+    textarea {
+      cursor: text;
+    }
+  }
 }
