@@ -56,8 +56,8 @@ export default function Footer() {
 
             <div className="flex flex-col gap-3 mt-1">
               {[
-                { icon: Mail, text: 'hola@padpoint.com.uy', href: 'mailto:hola@padpoint.com.uy' },
-                { icon: Phone, text: '+598 2 847-3912', href: 'https://wa.me/59828473912' },
+                { icon: Mail, text: 'Contacto@padpoint.com.uy', href: 'mailto:Contacto@padpoint.com.uy' },
+                { icon: Phone, text: '092 060 245', href: 'https://wa.me/59892060245' },
               ].map(({ icon: Icon, text, href }) => (
                 <a
                   key={text}
@@ -72,7 +72,7 @@ export default function Footer() {
 
             <div className="flex items-center gap-2 mt-1">
               {[
-                { Icon: InstagramIcon, label: 'Instagram', href: 'https://instagram.com/padpointuy' },
+                { Icon: InstagramIcon, label: 'Instagram', href: 'https://www.instagram.com/padpoint_uy/' },
                 { Icon: FacebookIcon, label: 'Facebook', href: '#' },
               ].map(({ Icon, label, href }) => (
                 <a
