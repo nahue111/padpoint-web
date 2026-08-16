@@ -104,29 +104,29 @@ export default function Contact() {
             <form onSubmit={e => { e.preventDefault(); setSent(true) }} className="flex flex-col gap-5">
               <div className="c-animate grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-2">
-                  <label className={labelClass}>Nombre</label>
-                  <input type="text" value={form.nombre} onChange={update('nombre')} placeholder="Tu nombre" className={inputClass} required />
+                  <label htmlFor="f-nombre" className={labelClass}>Nombre</label>
+                  <input id="f-nombre" name="nombre" autoComplete="name" type="text" value={form.nombre} onChange={update('nombre')} placeholder="Tu nombre" className={inputClass} required />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className={labelClass}>Club</label>
-                  <input type="text" value={form.club} onChange={update('club')} placeholder="Nombre del club" className={inputClass} required />
+                  <label htmlFor="f-club" className={labelClass}>Club</label>
+                  <input id="f-club" name="club" autoComplete="organization" type="text" value={form.club} onChange={update('club')} placeholder="Nombre del club" className={inputClass} required />
                 </div>
               </div>
 
               <div className="c-animate grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-2">
-                  <label className={labelClass}>Email</label>
-                  <input type="email" value={form.email} onChange={update('email')} placeholder="tu@email.com" className={inputClass} required />
+                  <label htmlFor="f-email" className={labelClass}>Email</label>
+                  <input id="f-email" name="email" autoComplete="email" type="email" value={form.email} onChange={update('email')} placeholder="tu@email.com" className={inputClass} required />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className={labelClass}>Teléfono</label>
-                  <input type="tel" value={form.telefono} onChange={update('telefono')} placeholder="+598 9X XXX XXX" className={inputClass} />
+                  <label htmlFor="f-telefono" className={labelClass}>Teléfono</label>
+                  <input id="f-telefono" name="telefono" autoComplete="tel" type="tel" value={form.telefono} onChange={update('telefono')} placeholder="+598 9X XXX XXX" className={inputClass} />
                 </div>
               </div>
 
               <div className="c-animate flex flex-col gap-2">
-                <label className={labelClass}>Cantidad de canchas</label>
-                <select value={form.canchas} onChange={update('canchas')} className={`${inputClass} ${form.canchas ? '' : 'text-[#c0c0c0]'}`} required>
+                <label htmlFor="f-canchas" className={labelClass}>Cantidad de canchas</label>
+                <select id="f-canchas" name="canchas" value={form.canchas} onChange={update('canchas')} className={`${inputClass} ${form.canchas ? '' : 'text-[#c0c0c0]'}`} required>
                   <option value="" disabled>Elegí una opción</option>
                   <option value="1-2">1 a 2 canchas</option>
                   <option value="3-5">3 a 5 canchas</option>
@@ -135,8 +135,8 @@ export default function Contact() {
               </div>
 
               <div className="c-animate flex flex-col gap-2">
-                <label className={labelClass}>Cómo funciona hoy tu club</label>
-                <textarea value={form.mensaje} onChange={update('mensaje')} placeholder="¿Cómo tomás las reservas hoy? ¿Tenés entrenadores dando clases? ¿Hacés torneos?" rows={4} className={`${inputClass} resize-none`} />
+                <label htmlFor="f-mensaje" className={labelClass}>Cómo funciona hoy tu club</label>
+                <textarea id="f-mensaje" name="mensaje" value={form.mensaje} onChange={update('mensaje')} placeholder="¿Cómo tomás las reservas hoy? ¿Tenés entrenadores dando clases? ¿Hacés torneos?" rows={4} className={`${inputClass} resize-none`} />
               </div>
 
               <div className="c-animate">

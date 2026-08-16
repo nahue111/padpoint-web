@@ -80,6 +80,7 @@ export default function Navbar() {
           className="md:hidden text-[#0047b3] p-1"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Menú"
+          aria-expanded={menuOpen}
         >
           {menuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
