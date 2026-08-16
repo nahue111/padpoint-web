@@ -219,7 +219,7 @@ function TorneoMock() {
       </div>
 
       <p className="relative text-[11px] text-[#8a8a8a] mt-5">
-        Inscripciones, llave y resultados se arman solos.
+        Inscripciones y llave se arman solas.
       </p>
     </div>
   )
@@ -262,11 +262,11 @@ const features = [
     badge: 'En desarrollo',
     title: 'Poné el día. Nada más.',
     description:
-      'El club elige la fecha del torneo y se despreocupa del resto. Lo único que carga después es cuánto sale cada partido, cuando se juegue. La idea es que pronto ni siquiera eso.',
+      'El club elige la fecha del torneo y se despreocupa del resto. Lo único que carga después son los resultados de los partidos, a medida que se van jugando.',
     points: [
-      'Elegís la fecha y se arma solo',
-      'Inscripciones, llave y resultados automáticos',
-      'Solo cargás el precio de los partidos',
+      'Elegís la fecha y el torneo se arma solo',
+      'Inscripciones y llave, automáticas',
+      'Solo cargás cómo salió cada partido',
     ],
     Visual: TorneoMock,
     reverse: false,
