@@ -165,7 +165,7 @@ export default function Hero() {
         {/* Izquierda: mensaje */}
         <div className="flex flex-col">
           <div className="hero-label flex items-center gap-3 mb-8">
-            <Ball className="w-4 h-4 text-ball" seam="rgba(0,71,179,0.5)" />
+            <Ball className="w-4 h-4 text-ball" />
             <span className="text-xs font-semibold tracking-[0.12em] text-[#0047b3]/60 uppercase">
               Para clubes de pádel
             </span>

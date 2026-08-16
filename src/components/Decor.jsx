@@ -1,13 +1,28 @@
 // Primitivas gráficas de pádel. Son SVG propios en vez de iconos genéricos:
 // es lo que le da identidad a la página sin depender de imágenes de stock.
 
-// Pelota de pádel — las costuras son los dos arcos clásicos
-export function Ball({ className = '', seam = 'rgba(255,255,255,0.85)' }) {
+// Pelota de pádel con la P de PadPoint adentro — la inversa del logo, donde la
+// pelota va dentro de la P. El color del círculo se hereda de `currentColor`.
+//
+// Las costuras van bien pegadas al borde a propósito: con la curvatura clásica
+// (más panzona hacia el centro) se tocaban con la letra y a 14px, que es el
+// tamaño de las viñetas, quedaba todo embarrado.
+export function Ball({
+  className = '',
+  seam = 'rgba(0,71,179,0.4)',
+  letterColor = '#0047b3',
+}) {
   return (
     <svg viewBox="0 0 32 32" fill="none" className={className} aria-hidden="true">
       <circle cx="16" cy="16" r="15" fill="currentColor" />
-      <path d="M3 8.5C10 12 10 20 3 23.5" stroke={seam} strokeWidth="1.7" strokeLinecap="round" />
-      <path d="M29 8.5C22 12 22 20 29 23.5" stroke={seam} strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M3.4 8C7.2 12 7.2 20 3.4 24" stroke={seam} strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M28.6 8C24.8 12 24.8 20 28.6 24" stroke={seam} strokeWidth="1.6" strokeLinecap="round" />
+      {/* Asta recta + bowl semicircular, con la contraforma calada (evenodd) */}
+      <path
+        fillRule="evenodd"
+        fill={letterColor}
+        d="M10.5 8H16a5.25 5.25 0 0 1 0 10.5H14.75V24H10.5ZM14.75 10.75H16a2.5 2.5 0 0 1 0 5H14.75Z"
+      />
     </svg>
   )
 }

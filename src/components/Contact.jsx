@@ -91,7 +91,7 @@ export default function Contact() {
           {/* Derecha: formulario */}
           {sent ? (
             <div className="c-animate flex flex-col items-start justify-center gap-4 py-12">
-              <Ball className="w-14 h-14 text-ball" seam="rgba(0,71,179,0.45)" />
+              <Ball className="w-14 h-14 text-ball" />
               <h3 className="text-2xl font-bold tracking-tight text-[#0047b3]">
                 Recibimos tu consulta.
               </h3>

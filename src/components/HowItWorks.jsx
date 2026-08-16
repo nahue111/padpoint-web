@@ -68,7 +68,6 @@ export default function HowItWorks() {
               <div className="flex items-center gap-3 mb-1">
                 <Ball
                   className="w-7 h-7 text-ball flex-shrink-0"
-                  seam="rgba(0,71,179,0.45)"
                 />
                 <span className="text-[11px] font-bold tracking-[0.16em] text-[#0047b3]/35">
                   {step.n}

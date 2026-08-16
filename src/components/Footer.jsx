@@ -32,10 +32,13 @@ const linkGroups = {
 export default function Footer() {
   return (
     <footer className="bg-[#0047b3] text-white pt-16 pb-8 relative overflow-hidden">
-      {/* Pelota gigante saliendo de la esquina */}
+      {/* Pelota gigante saliendo de la esquina. Sin girar: ahora lleva la P
+          adentro y una letra rotando lentamente queda rara. El color de la
+          letra es el fondo del footer, así se lee como calada. */}
       <Ball
-        className="absolute -bottom-24 -left-16 w-64 h-64 text-white/[0.04] animate-spin-slow"
-        seam="rgba(255,255,255,0.08)"
+        className="absolute -bottom-24 -left-16 w-64 h-64 text-white/[0.05]"
+        seam="rgba(255,255,255,0.12)"
+        letterColor="#0047b3"
       />
 
       <div className="max-w-[1200px] mx-auto px-10 relative">

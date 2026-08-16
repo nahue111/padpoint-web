@@ -212,7 +212,7 @@ function TorneoMock() {
 
         <div className="flex-1">
           <div className="flex items-center gap-2 text-[11px] font-bold text-[#2c3d00] bg-ball rounded-md px-2.5 py-2">
-            <Ball className="w-3.5 h-3.5 text-white flex-shrink-0" seam="rgba(0,71,179,0.4)" />
+            <Ball className="w-3.5 h-3.5 text-white flex-shrink-0" />
             Final
           </div>
         </div>
@@ -325,7 +325,7 @@ function FeatureRow({ feature, index, total }) {
         <ul className="f-animate flex flex-col gap-2.5">
           {feature.points.map(point => (
             <li key={point} className="flex items-center gap-3 text-[0.9375rem] text-[#4a4a4a]">
-              <Ball className="w-3.5 h-3.5 text-ball flex-shrink-0" seam="rgba(0,71,179,0.4)" />
+              <Ball className="w-3.5 h-3.5 text-ball flex-shrink-0" />
               {point}
             </li>
           ))}

@@ -20,7 +20,6 @@ export default {
       animation: {
         marquee: 'marquee 38s linear infinite',
         float: 'float 6s ease-in-out infinite',
-        'spin-slow': 'spin 18s linear infinite',
       },
       keyframes: {
         marquee: {
