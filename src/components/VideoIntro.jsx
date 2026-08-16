@@ -4,6 +4,27 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Tile de 56x12 que se repite en X — la longitud de onda no se deforma al escalar
+const WAVE = 'M0 6 Q 14 1 28 6 T 56 6'
+
+const waveTile = inner =>
+  `url("data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' width='56' height='12' viewBox='0 0 56 12'>${inner}</svg>`
+  )}")`
+
+// Relleno blanco por debajo de la onda: empalma con la sección blanca de abajo
+const waveFill = waveTile(`<path d='${WAVE} L56 12 L0 12 Z' fill='#ffffff'/>`)
+
+// Trazo sobre la cresta (sin linecap, para que los tiles empalmen sin cortes)
+const waveStroke = color =>
+  waveTile(`<path d='${WAVE}' fill='none' stroke='${color}' stroke-width='1.4'/>`)
+
+const waveStyle = image => ({
+  backgroundImage: image,
+  backgroundRepeat: 'repeat-x',
+  backgroundPosition: 'left center',
+})
+
 export default function VideoIntro() {
   const sectionRef = useRef(null)
   const videoRef = useRef(null)
@@ -45,7 +66,8 @@ export default function VideoIntro() {
             invalidateOnRefresh: true,
             onUpdate(self) {
               if (progressRef.current) {
-                progressRef.current.style.transform = `scaleX(${self.progress})`
+                // clip-path en vez de scaleX: revela la onda sin deformarla
+                progressRef.current.style.clipPath = `inset(0 ${(1 - self.progress) * 100}% 0 0)`
               }
             },
           },
@@ -112,11 +134,13 @@ export default function VideoIntro() {
         </div>
       )}
 
-      <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/15 pointer-events-none">
+      <div className="absolute bottom-0 left-0 right-0 h-3 pointer-events-none">
+        <div className="absolute inset-0" style={waveStyle(waveFill)} />
+        <div className="absolute inset-0" style={waveStyle(waveStroke('rgba(0,71,179,0.18)'))} />
         <div
           ref={progressRef}
-          className="h-full bg-white origin-left"
-          style={{ transform: 'scaleX(0)' }}
+          className="absolute inset-0"
+          style={{ ...waveStyle(waveStroke('#0047b3')), clipPath: 'inset(0 100% 0 0)' }}
         />
       </div>
     </div>

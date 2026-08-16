@@ -3,11 +3,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import VideoIntro from './components/VideoIntro'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import Marquee from './components/Marquee'
-import Stats from './components/Stats'
-import Courts from './components/Courts'
-import Services from './components/Services'
-import Pricing from './components/Pricing'
+import HowItWorks from './components/HowItWorks'
+import Features from './components/Features'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
@@ -19,11 +16,8 @@ export default function App() {
       <VideoIntro />
       <Navbar />
       <Hero />
-      <Marquee />
-      <Stats />
-      <Courts />
-      <Services />
-      <Pricing />
+      <HowItWorks />
+      <Features />
       <Contact />
       <Footer />
     </main>

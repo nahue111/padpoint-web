@@ -3,10 +3,10 @@ import { Menu, X } from 'lucide-react'
 import { gsap } from 'gsap'
 
 const navLinks = [
-  { label: 'Inicio', href: '#inicio' },
-  { label: 'Canchas', href: '#canchas' },
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Precios', href: '#precios' },
+  { label: 'Cómo funciona', href: '#como-funciona' },
+  { label: 'Ranking', href: '#ranking' },
+  { label: 'Entrenadores', href: '#entrenadores' },
+  { label: 'Torneos', href: '#torneos' },
   { label: 'Contacto', href: '#contacto' },
 ]
 
@@ -38,8 +38,8 @@ export default function Navbar() {
       ref={navRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/92 backdrop-blur-xl border-b border-[#e5e5e5]'
-          : 'bg-white/80 backdrop-blur-md border-b border-[#e5e5e5]/60'
+          ? 'bg-white/92 backdrop-blur-xl'
+          : 'bg-white/80 backdrop-blur-md'
       }`}
     >
       <div className="max-w-[1200px] mx-auto px-10 h-16 flex items-center justify-between">
@@ -72,7 +72,7 @@ export default function Navbar() {
             href="#contacto"
             className="bg-[#0047b3] text-white text-[0.9375rem] font-medium px-5 py-2.5 rounded-lg hover:bg-[#0066ff] active:scale-[0.97] transition-all duration-200 tracking-[-0.01em]"
           >
-            Reservar cancha
+            Sumar mi club
           </a>
         </div>
 
@@ -105,7 +105,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
             className="block mt-6 bg-[#0047b3] text-white text-center text-sm font-medium px-5 py-4 rounded-lg"
           >
-            Reservar cancha
+            Sumar mi club
           </a>
         </div>
       )}

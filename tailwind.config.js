@@ -10,6 +10,9 @@ export default {
         surface: '#fafafa',
         'border-base': '#e5e5e5',
         'dark-bg': '#0047b3',
+        // Verde pelota de pádel: solo como fondo/relleno, nunca como texto sobre blanco
+        ball: '#c6f24a',
+        'ball-dark': '#9fd420',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -17,6 +20,7 @@ export default {
       animation: {
         marquee: 'marquee 38s linear infinite',
         float: 'float 6s ease-in-out infinite',
+        'spin-slow': 'spin 18s linear infinite',
       },
       keyframes: {
         marquee: {

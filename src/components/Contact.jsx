@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import { MapPin, Phone, Clock, Send } from 'lucide-react'
+import { Mail, Phone, Send } from 'lucide-react'
+import { Ball } from './Decor'
 
 const InstagramIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
   </svg>
 )
@@ -11,10 +12,23 @@ const InstagramIcon = () => (
 const inputClass =
   'bg-white border border-[#e5e5e5] rounded-lg px-4 py-3.5 text-sm text-[#0047b3] placeholder:text-[#c0c0c0] focus:outline-none focus:border-[#0047b3] transition-colors duration-200 w-full tracking-[-0.01em]'
 
+const labelClass =
+  'text-[10px] font-semibold text-[#0047b3]/50 uppercase tracking-wider'
+
+const channels = [
+  { icon: Mail, label: 'Email', text: 'hola@padpoint.com.uy', href: 'mailto:hola@padpoint.com.uy' },
+  { icon: Phone, label: 'WhatsApp', text: '+598 2 847-3912', href: 'https://wa.me/59828473912' },
+  { icon: InstagramIcon, label: 'Instagram', text: '@padpointuy', href: 'https://instagram.com/padpointuy' },
+]
+
+const emptyForm = { nombre: '', club: '', email: '', telefono: '', canchas: '', mensaje: '' }
+
 export default function Contact() {
   const sectionRef = useRef(null)
-  const [form, setForm] = useState({ nombre: '', email: '', telefono: '', mensaje: '' })
+  const [form, setForm] = useState(emptyForm)
   const [sent, setSent] = useState(false)
+
+  const update = field => e => setForm({ ...form, [field]: e.target.value })
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -34,81 +48,95 @@ export default function Contact() {
     <section id="contacto" ref={sectionRef} className="py-24 bg-white border-t border-[#e5e5e5]">
       <div className="max-w-[1200px] mx-auto px-10">
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.3fr] gap-16 md:gap-24 items-start">
-          {/* Left */}
+          {/* Izquierda */}
           <div className="flex flex-col gap-10">
             <div className="c-animate">
               <span className="text-[0.8125rem] font-semibold tracking-[0.12em] text-[#0047b3]/50 uppercase block mb-2">
                 Contacto
               </span>
-              <h2 className="text-[2.25rem] font-semibold tracking-[-0.03em] leading-[1.15] text-[#0047b3]">
-                Empezá a jugar hoy.
+              <h2 className="text-[2.25rem] font-semibold tracking-[-0.03em] leading-[1.15] text-[#0047b3] mb-4">
+                Sumá tu club.
               </h2>
+              <p className="text-[1.0625rem] text-[#4a4a4a] leading-relaxed max-w-[42ch]">
+                Contanos cómo se maneja hoy tu club — planilla, WhatsApp, cuaderno —
+                y te mostramos cómo queda funcionando en PadPoint.
+              </p>
             </div>
 
-            <div className="c-animate flex flex-col gap-6">
-              {[
-                { icon: MapPin, label: 'Ubicación', text: 'Av. Italia 3456, Montevideo', sub: 'Uruguay' },
-                { icon: Phone, label: 'Teléfono', text: '+598 2 847-3912', sub: 'WhatsApp disponible' },
-                { icon: Clock, label: 'Horarios', text: 'Lun–Dom: 07:00 – 23:00', sub: 'Feriados con horario reducido' },
-              ].map(({ icon: Icon, label, text, sub }) => (
-                <div key={label} className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-[#0047b3]/8 border-2 border-[#0047b3]/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div className="c-animate flex flex-col gap-4">
+              {channels.map(({ icon: Icon, label, text, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center gap-4"
+                >
+                  <div className="w-10 h-10 rounded-full bg-[#0047b3]/8 border-2 border-[#0047b3]/15 flex items-center justify-center flex-shrink-0 group-hover:bg-ball group-hover:border-ball transition-colors duration-200">
                     <Icon size={16} className="text-[#0047b3]" strokeWidth={1.8} />
                   </div>
                   <div>
-                    <p className="text-[10px] text-[#0047b3]/50 font-semibold uppercase tracking-wider mb-0.5">{label}</p>
-                    <p className="text-sm text-[#0047b3] font-medium">{text}</p>
-                    <p className="text-xs text-[#8a8a8a]">{sub}</p>
+                    <p className="text-[10px] text-[#0047b3]/50 font-semibold uppercase tracking-wider mb-0.5">
+                      {label}
+                    </p>
+                    <p className="text-sm text-[#0047b3] font-medium group-hover:text-[#0066ff] transition-colors duration-200">
+                      {text}
+                    </p>
                   </div>
-                </div>
+                </a>
               ))}
-            </div>
-
-            <div className="c-animate">
-              <a
-                href="https://instagram.com/padpointuy"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-[#4a4a4a] hover:text-[#0066ff] transition-colors duration-200"
-              >
-                <InstagramIcon />
-                @padpointuy
-              </a>
             </div>
           </div>
 
-          {/* Right: Form */}
+          {/* Derecha: formulario */}
           {sent ? (
             <div className="c-animate flex flex-col items-start justify-center gap-4 py-12">
-              <div className="w-12 h-12 bg-[#0047b3]/8 border-2 border-[#0047b3]/20 rounded-xl flex items-center justify-center">
-                <Send size={20} className="text-[#0047b3]" />
-              </div>
-              <h3 className="text-2xl font-bold tracking-tight text-[#0047b3]">Mensaje enviado.</h3>
-              <p className="text-sm text-[#4a4a4a] max-w-[36ch] leading-relaxed">
-                Te contactamos en las próximas horas para confirmar tu reserva. Nos vemos en la cancha.
+              <Ball className="w-14 h-14 text-ball" seam="rgba(0,71,179,0.45)" />
+              <h3 className="text-2xl font-bold tracking-tight text-[#0047b3]">
+                Recibimos tu consulta.
+              </h3>
+              <p className="text-sm text-[#4a4a4a] max-w-[38ch] leading-relaxed">
+                Te escribimos para coordinar una demo y ver juntos cómo se adapta
+                a la forma de trabajar de tu club.
               </p>
             </div>
           ) : (
             <form onSubmit={e => { e.preventDefault(); setSent(true) }} className="flex flex-col gap-5">
               <div className="c-animate grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-2">
-                  <label className="text-[10px] font-semibold text-[#0047b3]/50 uppercase tracking-wider">Nombre</label>
-                  <input type="text" value={form.nombre} onChange={e => setForm({ ...form, nombre: e.target.value })} placeholder="Tu nombre completo" className={inputClass} required />
+                  <label className={labelClass}>Nombre</label>
+                  <input type="text" value={form.nombre} onChange={update('nombre')} placeholder="Tu nombre" className={inputClass} required />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-[10px] font-semibold text-[#0047b3]/50 uppercase tracking-wider">Email</label>
-                  <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="tu@email.com" className={inputClass} required />
+                  <label className={labelClass}>Club</label>
+                  <input type="text" value={form.club} onChange={update('club')} placeholder="Nombre del club" className={inputClass} required />
+                </div>
+              </div>
+
+              <div className="c-animate grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="flex flex-col gap-2">
+                  <label className={labelClass}>Email</label>
+                  <input type="email" value={form.email} onChange={update('email')} placeholder="tu@email.com" className={inputClass} required />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className={labelClass}>Teléfono</label>
+                  <input type="tel" value={form.telefono} onChange={update('telefono')} placeholder="+598 9X XXX XXX" className={inputClass} />
                 </div>
               </div>
 
               <div className="c-animate flex flex-col gap-2">
-                <label className="text-[10px] font-semibold text-[#0047b3]/50 uppercase tracking-wider">Teléfono</label>
-                <input type="tel" value={form.telefono} onChange={e => setForm({ ...form, telefono: e.target.value })} placeholder="+598 9X XXX XXX" className={inputClass} />
+                <label className={labelClass}>Cantidad de canchas</label>
+                <select value={form.canchas} onChange={update('canchas')} className={`${inputClass} ${form.canchas ? '' : 'text-[#c0c0c0]'}`} required>
+                  <option value="" disabled>Elegí una opción</option>
+                  <option value="1-2">1 a 2 canchas</option>
+                  <option value="3-5">3 a 5 canchas</option>
+                  <option value="6+">6 o más</option>
+                </select>
               </div>
 
               <div className="c-animate flex flex-col gap-2">
-                <label className="text-[10px] font-semibold text-[#0047b3]/50 uppercase tracking-wider">Mensaje</label>
-                <textarea value={form.mensaje} onChange={e => setForm({ ...form, mensaje: e.target.value })} placeholder="¿Querés reservar una cancha, consultar sobre clases o membresías?" rows={5} className={`${inputClass} resize-none`} />
+                <label className={labelClass}>Cómo funciona hoy tu club</label>
+                <textarea value={form.mensaje} onChange={update('mensaje')} placeholder="¿Cómo tomás las reservas hoy? ¿Tenés entrenadores dando clases? ¿Hacés torneos?" rows={4} className={`${inputClass} resize-none`} />
               </div>
 
               <div className="c-animate">
@@ -116,7 +144,7 @@ export default function Contact() {
                   type="submit"
                   className="group w-full flex items-center justify-center gap-2 bg-[#0047b3] text-white font-medium py-4 rounded-lg hover:bg-[#0066ff] active:scale-[0.97] transition-all duration-200 text-[0.9375rem] mt-1 tracking-[-0.01em]"
                 >
-                  Enviar mensaje
+                  Quiero una demo
                   <Send size={14} className="group-hover:translate-x-0.5 transition-transform duration-200" />
                 </button>
               </div>
