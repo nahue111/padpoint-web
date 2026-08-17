@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { Mail, Phone, Send } from 'lucide-react'
-import { Ball } from './Decor'
 
 const InstagramIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -92,7 +91,7 @@ export default function Contact() {
           {/* Derecha: formulario */}
           {sent ? (
             <div className="c-animate flex flex-col items-start justify-center gap-4 py-12">
-              <Ball className="w-14 h-14 text-ball" />
+              <img src="/pelota.webp" alt="" className="w-14 h-14" />
               <h3 className="text-2xl font-bold tracking-tight text-[#0047b3]">
                 Recibimos tu consulta.
               </h3>

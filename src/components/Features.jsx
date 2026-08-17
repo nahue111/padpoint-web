@@ -1,25 +1,28 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { TrendingUp, TrendingDown, ArrowRight, CalendarDays } from 'lucide-react'
-import { Ball, Paddle } from './Decor'
+import { Paddle } from './Decor'
 
 /* ---------- Maquetas ---------- */
 // En vez de fotos de stock, cada bloque muestra la pantalla de la que habla.
 
+// Las dos tablas arrancan en el puesto 1 y siguen en orden. La gracia está en
+// que Flor es primera en su club y quinta en la general, con los mismos 1.284
+// puntos en las dos: se ve que es la misma persona en dos tablas distintas.
 const RANKINGS = {
   club: [
-    { pos: 1, initials: 'FL', name: 'Flor Lemos', pts: 1284, delta: 24 },
+    { pos: 1, initials: 'FL', name: 'Flor Lemos', pts: 1284, delta: 24, propio: true },
     { pos: 2, initials: 'MG', name: 'Martín Genta', pts: 1240, delta: 18 },
     { pos: 3, initials: 'DR', name: 'Diego Rivas', pts: 1198, delta: -12 },
     { pos: 4, initials: 'AC', name: 'Ana Cardozo', pts: 1155, delta: 9 },
     { pos: 5, initials: 'JP', name: 'Juan Pérez', pts: 1102, delta: -6 },
   ],
   general: [
-    { pos: 12, initials: 'FL', name: 'Flor Lemos', pts: 1284, delta: 24 },
-    { pos: 18, initials: 'MG', name: 'Martín Genta', pts: 1240, delta: 18 },
-    { pos: 31, initials: 'DR', name: 'Diego Rivas', pts: 1198, delta: -12 },
-    { pos: 44, initials: 'AC', name: 'Ana Cardozo', pts: 1155, delta: 9 },
-    { pos: 57, initials: 'JP', name: 'Juan Pérez', pts: 1102, delta: -6 },
+    { pos: 1, initials: 'VS', name: 'Valentina Sosa', pts: 1512, delta: 31 },
+    { pos: 2, initials: 'RD', name: 'Rodrigo Díaz', pts: 1468, delta: -8 },
+    { pos: 3, initials: 'CM', name: 'Camila Méndez', pts: 1401, delta: 12 },
+    { pos: 4, initials: 'AB', name: 'Agustín Bordón', pts: 1337, delta: 5 },
+    { pos: 5, initials: 'FL', name: 'Flor Lemos', pts: 1284, delta: 24, propio: true },
   ],
 }
 
@@ -56,22 +59,33 @@ function RankingMock() {
               i < rows.length - 1 ? 'border-b border-[#f0f0f0]' : ''
             }`}
           >
+            {/* Se resalta la jugadora del club, no la primera fila: en la
+                general está quinta y es justo lo que hay que poder seguir */}
             <span
               className={`w-7 text-center text-[13px] font-bold tabular-nums ${
-                i === 0 ? 'text-[#0047b3]' : 'text-[#c0c0c0]'
+                p.propio ? 'text-[#0047b3]' : 'text-[#c0c0c0]'
               }`}
             >
               {p.pos}
             </span>
             <div
               className={`w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold flex-shrink-0 ${
-                i === 0 ? 'bg-ball text-[#2c3d00]' : 'bg-[#0047b3]/8 text-[#0047b3]'
+                p.propio ? 'bg-ball text-[#2c3d00]' : 'bg-[#0047b3]/8 text-[#0047b3]'
               }`}
             >
               {p.initials}
             </div>
-            <span className="flex-1 text-[13px] text-[#0047b3] font-medium truncate">
-              {p.name}
+            <span className="flex-1 flex items-center gap-2 min-w-0">
+              <span className="text-[13px] text-[#0047b3] font-medium truncate">
+                {p.name}
+              </span>
+              {p.propio && tab === 'general' && (
+                // Entre md y lg la tarjeta queda angosta y el chip cortaba los
+                // nombres; ahí alcanza con el avatar verde para marcar la fila
+                <span className="hidden lg:inline-block text-[9px] font-bold uppercase tracking-wider bg-[#0047b3]/8 text-[#0047b3]/70 px-1.5 py-0.5 rounded flex-shrink-0">
+                  Tu club
+                </span>
+              )}
             </span>
             <span className="text-[13px] font-bold text-[#0047b3] tabular-nums">
               {p.pts.toLocaleString('es-UY')}
@@ -212,7 +226,7 @@ function TorneoMock() {
 
         <div className="flex-1">
           <div className="flex items-center gap-2 text-[11px] font-bold text-[#2c3d00] bg-ball rounded-md px-2.5 py-2">
-            <Ball className="w-3.5 h-3.5 text-white flex-shrink-0" />
+            <img src="/pelota.webp" alt="" className="w-3.5 h-3.5 flex-shrink-0" />
             Final
           </div>
         </div>
@@ -325,7 +339,7 @@ function FeatureRow({ feature, index, total }) {
         <ul className="f-animate flex flex-col gap-2.5">
           {feature.points.map(point => (
             <li key={point} className="flex items-center gap-3 text-[0.9375rem] text-[#4a4a4a]">
-              <Ball className="w-3.5 h-3.5 text-ball flex-shrink-0" />
+              <img src="/pelota.webp" alt="" className="w-3.5 h-3.5 flex-shrink-0" />
               {point}
             </li>
           ))}

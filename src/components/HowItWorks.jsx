@@ -65,10 +65,6 @@ export default function HowItWorks() {
           {steps.map((step, i) => (
             <div key={step.n} className="hw-animate relative flex flex-col gap-3">
               <div className="flex items-center gap-3 mb-1">
-                {/* Acá va la foto de la pelota con el logo, no el SVG: a 36px
-                    hay lugar para que se lea. En las viñetas de 14px de las
-                    listas se seguiría usando el SVG, que a ese tamaño es lo
-                    único que se distingue. */}
                 <img
                   src="/pelota.webp"
                   alt=""

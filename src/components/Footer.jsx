@@ -1,5 +1,4 @@
 import { Phone, Mail } from 'lucide-react'
-import { Ball } from './Decor'
 
 const InstagramIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -32,14 +31,9 @@ const linkGroups = {
 export default function Footer() {
   return (
     <footer className="bg-[#0047b3] text-white pt-16 pb-8 relative overflow-hidden">
-      {/* Pelota gigante saliendo de la esquina. Sin girar: ahora lleva la P
-          adentro y una letra rotando lentamente queda rara. El color de la
-          letra es el fondo del footer, así se lee como calada. */}
-      <Ball
-        className="absolute -bottom-24 -left-16 w-64 h-64 text-white/[0.05]"
-        seam="rgba(255,255,255,0.12)"
-        letterColor="#0047b3"
-      />
+      {/* Pelota gigante saliendo de la esquina, casi transparente: sobre el
+          azul del footer la foto a opacidad plena competiría con el texto. */}
+      <img src="/pelota.webp" alt="" className="absolute -bottom-24 -left-16 w-64 h-64 opacity-[0.09]" />
 
       <div className="max-w-[1200px] mx-auto px-10 relative">
         <div className="grid grid-cols-2 md:grid-cols-[1.5fr_1fr_1fr_1fr] gap-10 mb-12">

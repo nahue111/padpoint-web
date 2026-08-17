@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ArrowRight, ChevronDown, Check } from 'lucide-react'
-import { Ball, Paddle, Scribble } from './Decor'
+import { Paddle, Scribble } from './Decor'
 
 const SLOTS = [
   { initials: 'MG', name: 'Martín' },
@@ -29,7 +29,7 @@ function PreReservaDemo() {
   return (
     <div className="relative">
       {/* Pelota decorativa detrás de la tarjeta */}
-      <Ball className="absolute -top-7 -right-4 w-16 h-16 text-ball animate-float -z-10" />
+      <img src="/pelota.webp" alt="" className="absolute -top-7 -right-4 w-16 h-16 animate-float -z-10" />
 
       <div className="bg-white border border-[#e5e5e5] rounded-2xl p-7 shadow-[0_18px_50px_-24px_rgba(0,71,179,0.45)]">
         <div className="flex items-start justify-between gap-4 mb-6">
@@ -165,7 +165,7 @@ export default function Hero() {
         {/* Izquierda: mensaje */}
         <div className="flex flex-col">
           <div className="hero-label flex items-center gap-3 mb-8">
-            <Ball className="w-4 h-4 text-ball" />
+            <img src="/pelota.webp" alt="" className="w-4 h-4" />
             <span className="text-xs font-semibold tracking-[0.12em] text-[#0047b3]/60 uppercase">
               Para clubes de pádel
             </span>
