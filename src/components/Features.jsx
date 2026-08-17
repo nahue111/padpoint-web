@@ -55,7 +55,7 @@ function RankingMock() {
         {rows.map((p, i) => (
           <div
             key={p.initials}
-            className={`flex items-center gap-3 py-3 ${
+            className={`flex items-center gap-3 py-3 px-2 -mx-2 rounded-lg transition-colors duration-200 hover:bg-[#0047b3]/[0.04] ${
               i < rows.length - 1 ? 'border-b border-[#f0f0f0]' : ''
             }`}
           >
@@ -357,13 +357,20 @@ export default function Features() {
   return (
     <section id="funciones" className="py-24 bg-white">
       <div className="max-w-[1200px] mx-auto px-10">
-        <div className="mb-20 max-w-[620px]">
+        {/* La bajada no es relleno: sin ella este h2 quedaba solo, pegado al
+            h3 del primer bloque, y se leían como dos títulos apilados */}
+        <div className="mb-16 md:mb-20 max-w-[620px]">
           <span className="text-[0.8125rem] font-semibold tracking-[0.12em] text-[#0047b3]/50 uppercase block mb-2">
             Lo que ofrecemos
           </span>
-          <h2 className="text-[2.25rem] font-semibold tracking-[-0.03em] leading-[1.15] text-[#0047b3]">
+          <h2 className="text-[2.25rem] font-semibold tracking-[-0.03em] leading-[1.15] text-[#0047b3] mb-4">
             Todo en un mismo lugar
           </h2>
+          <p className="text-[1.0625rem] text-[#4a4a4a] leading-relaxed">
+            Reservas, ranking, clases y torneos no son cuatro sistemas sueltos
+            que el club tiene que hacer convivir. Es uno solo, y cada parte se
+            apoya en la anterior.
+          </p>
         </div>
 
         {features.map((feature, i) => (
