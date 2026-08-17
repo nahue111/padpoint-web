@@ -25,19 +25,44 @@ const waveStyle = image => ({
   backgroundPosition: 'left center',
 })
 
+// El intro tiene dos masters: 16:9 para pantallas anchas y 9:16 para celular.
+// Se elige por JS y no con <source media>, porque los navegadores ignoran ese
+// atributo en <video> y además no lo reevalúan si cambia el tamaño.
+const CONSULTA_VERTICAL = '(max-width: 767px)'
+const VIDEO_HORIZONTAL = '/intro_scrub.mp4'
+const VIDEO_VERTICAL = '/intro_vertical.mp4'
+
+const videoSegunPantalla = () =>
+  window.matchMedia(CONSULTA_VERTICAL).matches ? VIDEO_VERTICAL : VIDEO_HORIZONTAL
+
 export default function VideoIntro() {
   const sectionRef = useRef(null)
   const videoRef = useRef(null)
   const progressRef = useRef(null)
   const tweenRef = useRef(null)
   const [loaded, setLoaded] = useState(false)
+  const [src, setSrc] = useState(videoSegunPantalla)
+
+  // Si se cruza el breakpoint (rotar el teléfono, agrandar la ventana) se
+  // cambia el master y el efecto de abajo rearma el scrub con el nuevo.
+  useEffect(() => {
+    const mq = window.matchMedia(CONSULTA_VERTICAL)
+    const alCambiar = () => setSrc(videoSegunPantalla())
+    mq.addEventListener('change', alCambiar)
+    return () => mq.removeEventListener('change', alCambiar)
+  }, [])
 
   useEffect(() => {
     const video = videoRef.current
     const section = sectionRef.current
     if (!video || !section) return
 
+    // Si el src cambia antes de que el video termine de cargar, este flag
+    // evita que el init viejo arme un scrub sobre el master que ya no va.
+    let cancelado = false
+
     const init = () => {
+      if (cancelado) return
       const duration = video.duration
       if (!duration) return
 
@@ -79,16 +104,19 @@ export default function VideoIntro() {
     if (video.readyState >= 4) {
       init()
     } else {
+      setLoaded(false)
       video.addEventListener('canplaythrough', init, { once: true })
       video.load()
     }
 
     return () => {
+      cancelado = true
+      video.removeEventListener('canplaythrough', init)
       tweenRef.current?.scrollTrigger?.kill()
       tweenRef.current?.kill()
       tweenRef.current = null
     }
-  }, [])
+  }, [src])
 
   return (
     <div
@@ -98,7 +126,7 @@ export default function VideoIntro() {
     >
       <video
         ref={videoRef}
-        src="/intro_scrub.mp4"
+        src={src}
         playsInline
         muted
         preload="auto"
@@ -107,26 +135,29 @@ export default function VideoIntro() {
 
       <div className="absolute inset-0 bg-black/15 pointer-events-none" />
 
-      <div className="absolute bottom-8 left-8 md:left-12 flex items-center gap-3 pointer-events-none">
-        <img src="/logopad.jpg" alt="PadPoint" className="h-10 w-10 rounded-xl object-cover" />
-        <span
-          className="text-white font-semibold text-lg tracking-tight"
-          style={{ textShadow: '0 1px 12px rgba(0,0,0,0.5)' }}
-        >
-          PadPoint
-        </span>
-      </div>
-
-      {loaded && (
-        <div className="absolute bottom-10 right-8 md:right-12 pointer-events-none">
+      {/* Marca y aviso de scroll comparten la franja de abajo. En mobile no
+          entran uno al lado del otro (se pisaban a 375px), así que ahí van
+          apilados y recién desde md pasan a fila con el aviso a la derecha. */}
+      <div className="absolute bottom-8 left-8 right-8 md:left-12 md:right-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 pointer-events-none">
+        <div className="flex items-center gap-3">
+          <img src="/logopad.jpg" alt="PadPoint" className="h-10 w-10 rounded-xl object-cover" />
           <span
-            className="text-[11px] text-white/55 font-semibold tracking-[0.18em] uppercase block text-right"
+            className="text-white font-semibold text-lg tracking-tight"
+            style={{ textShadow: '0 1px 12px rgba(0,0,0,0.5)' }}
+          >
+            PadPoint
+          </span>
+        </div>
+
+        {loaded && (
+          <span
+            className="text-[11px] text-white/55 font-semibold tracking-[0.18em] uppercase md:text-right"
             style={{ textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}
           >
             Scroll para continuar
           </span>
-        </div>
-      )}
+        )}
+      </div>
 
       {!loaded && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
