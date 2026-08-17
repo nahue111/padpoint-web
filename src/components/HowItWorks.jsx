@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import { Ball } from './Decor'
 
 const steps = [
   {
@@ -66,8 +65,16 @@ export default function HowItWorks() {
           {steps.map((step, i) => (
             <div key={step.n} className="hw-animate relative flex flex-col gap-3">
               <div className="flex items-center gap-3 mb-1">
-                <Ball
-                  className="w-7 h-7 text-ball flex-shrink-0"
+                {/* Acá va la foto de la pelota con el logo, no el SVG: a 36px
+                    hay lugar para que se lea. En las viñetas de 14px de las
+                    listas se seguiría usando el SVG, que a ese tamaño es lo
+                    único que se distingue. */}
+                <img
+                  src="/pelota.webp"
+                  alt=""
+                  width="36"
+                  height="36"
+                  className="w-9 h-9 flex-shrink-0"
                 />
                 <span className="text-[11px] font-bold tracking-[0.16em] text-[#0047b3]/35">
                   {step.n}
