@@ -35,6 +35,12 @@ const VIDEO_VERTICAL = '/intro_vertical.mp4'
 const videoSegunPantalla = () =>
   window.matchMedia(CONSULTA_VERTICAL).matches ? VIDEO_VERTICAL : VIDEO_HORIZONTAL
 
+// Píxeles de scroll por cada segundo de video. En celular va la mitad: con el
+// mismo valor que en escritorio había que hacer el doble de swipes para pasar
+// el intro, porque el dedo recorre mucho menos que una rueda de mouse.
+const PX_POR_SEGUNDO = 180
+const PX_POR_SEGUNDO_CELULAR = 90
+
 export default function VideoIntro() {
   const sectionRef = useRef(null)
   const videoRef = useRef(null)
@@ -84,7 +90,9 @@ export default function VideoIntro() {
           scrollTrigger: {
             trigger: section,
             start: 'top top',
-            end: `+=${Math.ceil(duration * 180)}`,
+            end: `+=${Math.ceil(
+              duration * (src === VIDEO_VERTICAL ? PX_POR_SEGUNDO_CELULAR : PX_POR_SEGUNDO)
+            )}`,
             pin: true,
             pinSpacing: true,
             scrub: 0.2,
