@@ -23,8 +23,8 @@ const linkGroups = {
     { label: 'Pedir una demo', href: '#contacto' },
   ],
   Legal: [
-    { label: 'Términos', href: '#' },
-    { label: 'Privacidad', href: '#' },
+    { label: 'Términos y Condiciones', href: '/terminos.html' },
+    { label: 'Política de Privacidad', href: '/privacidad.html' },
   ],
 }
 
