@@ -50,7 +50,7 @@ export default function Footer() {
 
             <div className="flex flex-col gap-3 mt-1">
               {[
-                { icon: Mail, text: 'Contacto@padpoint.com.uy', href: 'mailto:Contacto@padpoint.com.uy' },
+                { icon: Mail, text: 'soporte@padpoint.com.uy', href: 'mailto:soporte@padpoint.com.uy' },
                 { icon: Phone, text: '092 060 245', href: 'https://wa.me/59892060245' },
               ].map(({ icon: Icon, text, href }) => (
                 <a

@@ -15,7 +15,7 @@ const labelClass =
   'text-[10px] font-semibold text-[#0047b3]/50 uppercase tracking-wider'
 
 const channels = [
-  { icon: Mail, label: 'Email', text: 'Contacto@padpoint.com.uy', href: 'mailto:Contacto@padpoint.com.uy' },
+  { icon: Mail, label: 'Email', text: 'soporte@padpoint.com.uy', href: 'mailto:soporte@padpoint.com.uy' },
   // wa.me pide el número en formato internacional y sin el 0 inicial: 092 060 245 -> 598 92060245
   { icon: Phone, label: 'WhatsApp', text: '092 060 245', href: 'https://wa.me/59892060245' },
   { icon: InstagramIcon, label: 'Instagram', text: '@padpoint_uy', href: 'https://www.instagram.com/padpoint_uy/' },
