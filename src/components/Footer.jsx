@@ -22,6 +22,10 @@ const linkGroups = {
     { label: 'Sumar mi club', href: '#contacto' },
     { label: 'Pedir una demo', href: '#contacto' },
   ],
+  Ayuda: [
+    { label: 'Soporte', href: '/soporte' },
+    { label: 'Eliminar mi cuenta', href: '/eliminar-cuenta' },
+  ],
   Legal: [
     { label: 'Términos y Condiciones', href: '/terminos' },
     { label: 'Política de Privacidad', href: '/privacidad' },
@@ -36,7 +40,7 @@ export default function Footer() {
       <img src="/pelota.webp" alt="" className="absolute -bottom-24 -left-16 w-64 h-64 opacity-[0.09]" />
 
       <div className="max-w-[1200px] mx-auto px-10 relative">
-        <div className="grid grid-cols-2 md:grid-cols-[1.5fr_1fr_1fr_1fr] gap-10 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] gap-10 mb-12">
           {/* Marca */}
           <div className="col-span-2 md:col-span-1 flex flex-col gap-5">
             <div className="flex items-center gap-2.5">

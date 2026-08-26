@@ -19,7 +19,7 @@
   header a{color:var(--azul);font-weight:600;font-size:1.05rem;text-decoration:none;letter-spacing:-.02em}
   h1{color:var(--azul);font-size:2rem;line-height:1.2;letter-spacing:-.03em;margin:0 0 8px}
   .fecha{color:var(--suave);font-size:.875rem;margin:0 0 36px}
-  h2{color:var(--azul);font-size:1.15rem;letter-spacing:-.02em;margin:38px 0 10px}
+  h2{color:var(--azul);font-size:1.15rem;letter-spacing:-.02em;margin:38px 0 10px;scroll-margin-top:20px}
   p,li{font-size:1rem}
   ul{padding-left:22px}
   li{margin-bottom:7px}
@@ -35,14 +35,14 @@
   <header><img src="/logopad.jpg" alt=""><a href="/">PadPoint</a></header>
 
   <h1>Política de Privacidad</h1>
-  <p class="fecha">Última actualización: 24 de agosto de 2026</p>
+  <p class="fecha">Última actualización: 26 de agosto de 2026</p>
 
   <p>
     Esta política explica qué datos personales tratamos en la aplicación PadPoint
     y en este sitio, para qué los usamos y qué derechos tenés sobre ellos.
   </p>
 
-  <h2>1. Quién es responsable</h2>
+  <h2 id="responsable">1. Quién es responsable</h2>
   <p>
     El responsable del tratamiento es <strong>Nahuel Mateo López Naviliat</strong> (RUT 218283380018), con domicilio en <strong>Cufre 5587, Montevideo</strong>,
     Uruguay. Consultas:
@@ -54,7 +54,7 @@
     como proveedores de la herramienta.
   </p>
 
-  <h2>2. Qué datos tratamos</h2>
+  <h2 id="datos">2. Qué datos tratamos</h2>
   <table>
     <tr><th>Dato</th><th>Para qué</th></tr>
     <tr><td>Nombre y apellido, nombre para mostrar</td><td>Identificarte ante clubes y jugadores.</td></tr>
@@ -78,7 +78,7 @@
     sesión: tu nombre y tu correo. Nunca tu contraseña de esa cuenta.
   </p>
 
-  <h2>3. Ubicación</h2>
+  <h2 id="ubicacion">3. Ubicación</h2>
   <p>
     Pedimos tu ubicación <strong>solo mientras la app está en uso</strong> y
     únicamente para mostrarte partidos y clubes cercanos. Nunca en segundo plano.
@@ -86,14 +86,14 @@
     clubes a mano.
   </p>
 
-  <h2>4. Notificaciones</h2>
+  <h2 id="notificaciones">4. Notificaciones</h2>
   <p>
     Si las aceptás, guardamos un identificador de tu dispositivo para avisarte
     de tus partidos, reservas e invitaciones. Podés desactivarlas desde los
     ajustes del teléfono.
   </p>
 
-  <h2>5. Pagos</h2>
+  <h2 id="pagos">5. Pagos</h2>
   <p>
     <strong>La aplicación no procesa pagos con tarjeta ni guarda datos de
     tarjetas.</strong> Lo que registramos es el movimiento de tu cuenta con el
@@ -101,7 +101,7 @@
     por fuera de la app.
   </p>
 
-  <h2>6. Quién ve tus datos</h2>
+  <h2 id="quien-ve">6. Quién ve tus datos</h2>
   <ul>
     <li><strong>Otros jugadores:</strong> tu nombre, tu foto, tu posición en el ranking y los partidos que jugaste.</li>
     <li><strong>Los clubes donde jugás:</strong> además de lo anterior, tus reservas, tu cuenta corriente y las notas que ellos mismos registren.</li>
@@ -112,7 +112,7 @@
     aplicación.
   </p>
 
-  <h2>7. Proveedores que usamos</h2>
+  <h2 id="proveedores">7. Proveedores que usamos</h2>
   <ul>
     <li><strong>Convex</strong> — base de datos y almacenamiento de archivos.</li>
     <li><strong>Expo</strong> — compilación, actualizaciones y envío de notificaciones.</li>
@@ -125,7 +125,7 @@
     servidores fuera de Uruguay.
   </p>
 
-  <h2>8. Publicidad y seguimiento</h2>
+  <h2 id="publicidad">8. Publicidad y seguimiento</h2>
   <p>
     <strong>No hacemos seguimiento publicitario.</strong> No usamos tus datos
     para publicidad, no los compartimos con anunciantes ni con corredores de
@@ -136,7 +136,7 @@
     actividades. Podés pedirles que dejen de hacerlo.
   </p>
 
-  <h2>9. Cuánto tiempo conservamos los datos</h2>
+  <h2 id="conservacion">9. Cuánto tiempo conservamos los datos</h2>
   <p>
     Mientras tu cuenta esté activa. Al eliminarla borramos tu perfil y tus datos
     de contacto. Los resultados de partidos pueden conservarse de forma
@@ -144,15 +144,17 @@
     contables del club se conservan por el plazo que exige la ley.
   </p>
 
-  <h2>10. Eliminar tu cuenta</h2>
+  <h2 id="eliminar-cuenta">10. Eliminar tu cuenta</h2>
   <p>
     Podés eliminarla <strong>desde la propia aplicación</strong>, en la sección
     de tu cuenta. El proceso te muestra el estado hasta que se completa. También
     podés pedirlo escribiendo a
     <a href="mailto:soporte@padpoint.com.uy">soporte@padpoint.com.uy</a>.
+    El procedimiento completo, incluido qué hacer si perdiste el acceso, está
+    en <a href="/eliminar-cuenta">Eliminar mi cuenta</a>.
   </p>
 
-  <h2>11. Tus derechos</h2>
+  <h2 id="derechos">11. Tus derechos</h2>
   <p>
     Podés acceder a tus datos, corregirlos, eliminarlos u oponerte a su
     tratamiento, según la Ley N.º 18.331 de Protección de Datos Personales de
@@ -161,20 +163,20 @@
     (URCDP).
   </p>
 
-  <h2>12. Menores de edad</h2>
+  <h2 id="menores">12. Menores de edad</h2>
   <p>
     La aplicación está dirigida a personas de <strong>16</strong> años o más. Si detectamos una cuenta de un menor de esa
     edad sin autorización de su tutor, la damos de baja.
   </p>
 
-  <h2>13. Seguridad</h2>
+  <h2 id="seguridad">13. Seguridad</h2>
   <p>
     Las comunicaciones viajan cifradas y las credenciales de sesión se guardan
     en el almacenamiento seguro del dispositivo. Ningún sistema es infalible,
     pero trabajamos para proteger tu información.
   </p>
 
-  <h2>14. Cambios</h2>
+  <h2 id="cambios">14. Cambios</h2>
   <p>
     Si modificamos esta política actualizamos la fecha del encabezado y, si el
     cambio es importante, te avisamos dentro de la aplicación.
