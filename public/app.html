@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es" data-plataforma="pendiente">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Descargar — PadPoint</title>
+<meta name="description" content="Descargá PadPoint para iPhone o Android y empezá a reservar canchas de pádel.">
+<link rel="canonical" href="https://padpoint.com.uy/app" />
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/jpeg" href="/logopad.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+     CONFIGURACION — lo unico que hace falta tocar
+     ============================================================ -->
+<script>
+  var APP_STORE_URL = "https://apps.apple.com/uy/app/padpoint/id6761582559?l=es-MX";
+
+  // Google Play: TODAVIA NO PUBLICADA.
+  // Cuando salga, pega el link aca y el redirect de Android se activa solo:
+  // var PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.padpoint.app";
+  var PLAY_STORE_URL = "";
+
+  var MAIL_SOPORTE = "soporte@padpoint.com.uy";
+</script>
+
+<!-- Deteccion + redirect: corre ANTES de pintar, para que no haya parpadeo -->
+<script>
+(function () {
+  var ua = navigator.userAgent || "";
+  var quedarse = location.search.indexOf("stay") !== -1; // ?stay=1 => no redirige
+
+  var esAndroid = /android/i.test(ua);
+  // iPhone / iPod / iPad clasico, + iPadOS 13+ que se reporta como "Macintosh"
+  var esIOS = /iPad|iPhone|iPod/.test(ua) ||
+              (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+
+  var plataforma = esIOS ? "ios"
+                 : esAndroid ? (PLAY_STORE_URL ? "android" : "android-pronto")
+                 : "escritorio";
+
+  document.documentElement.setAttribute("data-plataforma", plataforma);
+
+  // replace() para no dejar la pagina puente en el historial: asi el boton
+  // "atras" del celular no vuelve a disparar el redirect.
+  if (!quedarse) {
+    if (plataforma === "ios") location.replace(APP_STORE_URL);
+    else if (plataforma === "android") location.replace(PLAY_STORE_URL);
+  }
+})();
+</script>
+
+<style>
+  :root{--azul:#0047b3;--azul-link:#0066ff;--texto:#3f3f3f;--suave:#8a8a8a;--borde:#e5e5e5}
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--texto);font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+  .wrap{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:760px;margin:0 auto;padding:40px 24px 60px;text-align:center}
+
+  .marca{display:inline-flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:34px;color:var(--azul);font-weight:600;font-size:1.05rem;letter-spacing:-.02em}
+  .marca img{width:36px;height:36px;border-radius:9px}
+
+  h1{color:var(--azul);font-size:2rem;line-height:1.2;letter-spacing:-.03em;margin:0}
+  p.sub{margin:10px 0 0;font-size:1rem;max-width:34ch}
+
+  .chip{display:inline-block;margin-bottom:14px;padding:5px 13px;border-radius:999px;background:#f2f6ff;color:var(--azul);font-size:.8rem;font-weight:600;letter-spacing:-.01em}
+
+  .acciones{display:grid;gap:10px;margin-top:28px;width:100%;max-width:340px}
+
+  .btn{display:inline-flex;min-height:48px;align-items:center;justify-content:center;gap:9px;border-radius:11px;font-size:1rem;font-weight:600;letter-spacing:-.01em;text-decoration:none;border:1px solid transparent;transition:background-color .2s,border-color .2s,transform .15s}
+  .btn:active{transform:translateY(1px)}
+  .btn svg{width:19px;height:19px;flex:none}
+  .btn-primario{background:var(--azul);color:#fff}
+  .btn-primario:hover{background:#003a94}
+  .btn-borde{background:#fff;color:var(--azul);border-color:var(--borde)}
+  .btn-borde:hover{border-color:var(--azul)}
+  .btn-mudo{background:#fafafa;color:var(--suave);border-color:var(--borde)}
+
+  .spinner{width:26px;height:26px;margin:0 auto 18px;border:3px solid #e6eefc;border-top-color:var(--azul);border-radius:50%;animation:girar .7s linear infinite}
+  @keyframes girar{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.spinner{animation:none}}
+
+  footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--borde);color:var(--suave);font-size:.875rem;width:100%;max-width:340px}
+  footer a{color:var(--azul-link)}
+
+  /* Visibilidad segun plataforma (el script del head la fija antes de pintar) */
+  [data-panel]{display:none}
+  html[data-plataforma="ios"]            [data-panel="ios"],
+  html[data-plataforma="android"]        [data-panel="android"],
+  html[data-plataforma="android-pronto"] [data-panel="android-pronto"],
+  html[data-plataforma="escritorio"]     [data-panel="escritorio"],
+  html[data-plataforma="pendiente"]      [data-panel="escritorio"]{display:block}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <a href="/" class="marca"><img src="/logopad.jpg" alt="">PadPoint</a>
+
+  <!-- iOS: redirigiendo al App Store -->
+  <div data-panel="ios">
+    <div class="spinner" aria-hidden="true"></div>
+    <h1>Abriendo el App Store…</h1>
+    <p class="sub">Te estamos llevando a descargar PadPoint.</p>
+    <div class="acciones">
+      <a class="btn btn-primario" id="ios-manual" href="#">Abrir App Store</a>
+    </div>
+  </div>
+
+  <!-- Android: redirigiendo a Google Play (cuando exista el link) -->
+  <div data-panel="android">
+    <div class="spinner" aria-hidden="true"></div>
+    <h1>Abriendo Google Play…</h1>
+    <p class="sub">Te estamos llevando a descargar PadPoint.</p>
+    <div class="acciones">
+      <a class="btn btn-primario" id="android-manual" href="#">Abrir Google Play</a>
+    </div>
+  </div>
+
+  <!-- Android sin app publicada todavia -->
+  <div data-panel="android-pronto">
+    <span class="chip">Próximamente en Android</span>
+    <h1>Todavía no está en Google Play</h1>
+    <p class="sub">Estamos terminando la versión para Android. Escribinos y te avisamos apenas salga.</p>
+    <div class="acciones">
+      <a class="btn btn-primario" id="avisame" href="#">Avisame cuando esté</a>
+      <a class="btn btn-borde" href="/">Volver al inicio</a>
+    </div>
+  </div>
+
+  <!-- Escritorio / otros -->
+  <div data-panel="escritorio">
+    <h1>Descargá PadPoint</h1>
+    <p class="sub">Escaneá el código desde tu celular, o elegí tu tienda.</p>
+    <div class="acciones">
+      <a class="btn btn-primario" id="escritorio-ios" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+        Descargar para iPhone
+      </a>
+      <span class="btn btn-mudo" id="escritorio-android">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg>
+        <span id="escritorio-android-texto">Android — próximamente</span>
+      </span>
+    </div>
+  </div>
+
+  <footer>¿Problemas para descargar? <a id="soporte" href="#">soporte@padpoint.com.uy</a></footer>
+</div>
+
+<script>
+// Cableado de los links. Si el redirect de arriba ya se disparo, no se ve.
+(function () {
+  function poner(id, url) {
+    var n = document.getElementById(id);
+    if (n && url) n.setAttribute("href", url);
+  }
+
+  poner("ios-manual", APP_STORE_URL);
+  poner("escritorio-ios", APP_STORE_URL);
+  poner("soporte", "mailto:" + MAIL_SOPORTE + "?subject=" + encodeURIComponent("Descarga de la app"));
+  poner("avisame", "mailto:" + MAIL_SOPORTE + "?subject=" + encodeURIComponent("Avisenme cuando salga la app de Android"));
+
+  if (PLAY_STORE_URL) {
+    poner("android-manual", PLAY_STORE_URL);
+    var mudo = document.getElementById("escritorio-android");
+    if (mudo) {
+      var a = document.createElement("a");
+      a.className = "btn btn-borde";
+      a.href = PLAY_STORE_URL;
+      a.innerHTML = mudo.innerHTML;
+      a.querySelector("#escritorio-android-texto").textContent = "Descargar para Android";
+      mudo.parentNode.replaceChild(a, mudo);
+    }
+  }
+})();
+</script>
+</body>
+</html>
