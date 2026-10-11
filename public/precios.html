@@ -198,13 +198,25 @@ footer .wrap { display: grid; gap: 28px; }
 .box:checked::after { opacity: 1; }
 .box:disabled { cursor: default; background: var(--green); border-color: var(--green); }
 .box:hover:not(:disabled) { border-color: var(--blue); }
-tr.team-row td { background: var(--blue-wash); padding-top: 0; }
+tr.group td { background: var(--soft); }
+tr.sub td:first-child { padding-left: 36px; }
+tr.sub .f-name { font-weight: 400; color: var(--text); }
+tr.team-row td { background: var(--white); }
+tr.team-row .c-price { text-align: right; }
+tr.team-row .stepper { margin-left: auto; }
+tr.divider td { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--blue-50); padding-top: 22px; padding-bottom: 10px; background: var(--white); }
+tr.soon td { opacity: .6; }
+.soon-tag { display: inline-block; margin-left: 8px; font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); background: var(--blue-wash); border-radius: 999px; padding: 2px 8px; vertical-align: 2px; opacity: 1; }
+.f-soon { color: var(--muted); }
+.box:disabled:not(:checked) { background: var(--soft); border-color: var(--line); cursor: not-allowed; }
 @media (max-width: 700px) {
   .plan-table th, .plan-table td { padding: 14px 8px; }
   .plan-table th:first-child, .plan-table td:first-child { padding-left: 16px; }
   .plan-table th:last-child, .plan-table td:last-child { padding-right: 16px; }
   .plan-table { font-size: 15px; }
   .f-desc, .f-price small, .c-check .th-label { display: none; }
+  tr.team-row .f-desc#team-cost { display: block; }
+  tr.sub td:first-child { padding-left: 28px; }
 }
 </style>
 </head>
@@ -228,7 +240,7 @@ tr.team-row td { background: var(--blue-wash); padding-top: 0; }
 <header class="wrap hero">
   <span class="eyebrow"><img src="/pelota.webp" alt="">Precios</span>
   <h1>Armá el plan de <span class="hl">tu club.</span></h1>
-  <p>Empezás con lo básico gratis y sumás solo lo que tu club usa. Sin funciones que no necesitás, y lo cambiás cuando quieras.</p>
+  <p>Empezás con el plan base y sumás solo los extras que tu club usa. Sin funciones que no necesitás, y lo cambiás cuando quieras.</p>
   <div class="period" role="group" aria-label="Forma de pago">
     <button type="button" id="p-month" aria-pressed="true">Mensual</button>
     <button type="button" id="p-year" aria-pressed="false">Anual<span class="tag">2 meses gratis</span></button>
@@ -240,7 +252,7 @@ tr.team-row td { background: var(--blue-wash); padding-top: 0; }
     <div class="section-head" style="margin-top:0">
       <span class="eyebrow"><img src="/pelota.webp" alt="">Funciones</span>
       <h2>Tildá lo que tu club necesita</h2>
-      <p>Lo básico ya viene incluido y es gratis. Cada función que tildás se suma al total.</p>
+      <p>El plan base ya viene tildado. Cada extra que tildás se suma al total.</p>
     </div>
     <div class="card table-card">
       <div class="table-scroll">
@@ -253,8 +265,8 @@ tr.team-row td { background: var(--blue-wash); padding-top: 0; }
 
     <div class="section-head">
       <span class="eyebrow"><img src="/pelota.webp" alt="">Packs</span>
-      <h2>O elegí un pack armado</h2>
-      <p>Si vas a usar varias funciones, el pack te sale más barato.</p>
+      <h2>Packs de extras</h2>
+      <p>Si vas a usar varios extras, el pack te sale más barato.</p>
     </div>
     <div class="packs" id="packs"></div>
   </div>
@@ -319,109 +331,100 @@ tr.team-row td { background: var(--blue-wash); padding-top: 0; }
 </div>
 
 <script>
+const BASE_PRICE = 39;
+const BASE_ITEMS = ["Perfil, canchas y horarios", "Agenda, reservas y registro de pagos", "Clientes", "Equipo (1 persona)"];
 const ADDONS = [
-  { id: "team", tag: "Personal", name: "Equipo", price: 0, desc: "Sumá empleados al panel, cada uno con su usuario y sus permisos.", note: "Un responsable viene incluido. Cada persona extra: US$ 2 por mes." },
-  { id: "clients", tag: "Gestión", name: "Clientes", price: 8, desc: "La ficha de cada jugador con su historial de reservas, pagos y etiquetas." },
-  { id: "accounting", tag: "Gestión", name: "Contabilidad y deudores", price: 20, desc: "Caja del día, gastos, reportes y quién te debe, con aviso por WhatsApp." },
-  { id: "promotions", tag: "Gestión", name: "Promociones", price: 4, desc: "Descuentos y regalos para llenar horarios flojos o premiar a los que más juegan." },
-  { id: "coupons", tag: "Gestión", name: "Cuponeras", price: 8, desc: "Vendé packs de horas o clases y se descuentan solos en cada reserva.", note: "Las ventas quedan registradas en Contabilidad." },
-  { id: "inventory", tag: "Pro", name: "Artículos y ventas", price: 10, desc: "Stock y venta de bebidas, pelotas, paletas y alquiler de equipo.", note: "Las ventas quedan registradas en Contabilidad." },
-  { id: "trainers", tag: "Pro", name: "Entrenadores y clases", price: 25, desc: "Cada profe publica sus horarios y los alumnos reservan directo desde la app. Incluye liquidaciones." },
-  { id: "tournaments", tag: "Pro", name: "Torneos", price: 20, desc: "Inscripciones desde la app, cuadros, horarios en tus canchas y resultados que mueven el ranking." },
+  { id: "accounting", name: "Contabilidad y deudores", price: 20, desc: "Caja del día, gastos, reportes y quién te debe, con aviso por WhatsApp." },
+  { id: "promotions", name: "Promociones", price: 4, desc: "Descuentos y regalos para llenar horarios flojos o premiar a los que más juegan." },
+  { id: "coupons", name: "Cuponeras", price: 8, desc: "Vendé packs de horas o clases y se descuentan solos en cada reserva." },
+  { id: "inventory", name: "Artículos y ventas", price: 10, desc: "Stock y venta de bebidas, pelotas, paletas y alquiler de equipo." },
+  { id: "trainers", name: "Entrenadores y clases", price: 25, desc: "Cada profe publica sus horarios y los alumnos reservan directo desde la app." },
+  { id: "tournaments", name: "Torneos", price: 20, desc: "Inscripciones desde la app, cuadros, horarios en tus canchas y resultados." },
 ];
+const SOON = [{ name: "Cámaras", desc: "Grabá los partidos y compartí las jugadas desde la app." }];
 const PER_PERSON = 2;
 const MAX_TEAM = 30;
 const PACKS = [
-  { id: "gestion", name: "Gestión", price: 35, people: 5, items: ["team", "clients", "accounting", "promotions", "coupons"], desc: "Equipo de hasta 5 personas, Clientes, Contabilidad y deudores, Promociones y Cuponeras." },
-  { id: "pro", name: "Pro", price: 69, people: 10, items: ADDONS.map(a => a.id), desc: "Todas las funciones y equipo de hasta 10 personas." },
+  { id: "gestion", name: "Gestión", price: 25, items: ["accounting", "promotions", "coupons"], desc: "Contabilidad y deudores, Promociones y Cuponeras." },
+  { id: "pro", name: "Pro", price: 65, items: ADDONS.map(a => a.id), desc: "Todas las funciones extra." },
 ];
 
-const state = { selected: new Set(["clients", "accounting"]), people: 3, yearly: false };
+const state = { selected: new Set(), people: 1, yearly: false };
 try {
-  const saved = JSON.parse(localStorage.getItem("pp-plan") || "null");
-  if (saved) { state.selected = new Set(saved.selected); state.people = saved.people; state.yearly = saved.yearly; }
+  const saved = JSON.parse(localStorage.getItem("pp-plan-v2") || "null");
+  if (saved) { state.selected = new Set(saved.selected.filter(id => ADDONS.some(a => a.id === id))); state.people = saved.people || 1; state.yearly = !!saved.yearly; }
 } catch (e) {}
 
 const fmt = n => "US$ " + (Number.isInteger(n) ? n : n.toFixed(2).replace(".", ","));
-const teamPrice = people => Math.max(0, people - 1) * PER_PERSON;
-const priceOf = id => id === "team" ? teamPrice(state.people) : ADDONS.find(a => a.id === id).price;
+const extraPeople = () => state.people - 1;
+const teamPrice = () => extraPeople() * PER_PERSON;
+const addonById = id => ADDONS.find(a => a.id === id);
+const lockedBox = label => `<input type="checkbox" class="box" checked disabled aria-label="${label}: incluido">`;
 
 function compute() {
-  const lines = ADDONS.filter(a => state.selected.has(a.id))
-    .map(a => ({ label: a.id === "team" ? `Equipo · ${state.people} personas` : a.name, price: priceOf(a.id) }));
-  const sum = lines.reduce((s, l) => s + l.price, 0);
-  const packTotal = pk => {
-    const outside = ADDONS.filter(a => state.selected.has(a.id) && !pk.items.includes(a.id)).reduce((s, a) => s + a.price, 0);
-    const people = state.selected.has("team") ? state.people : 1;
-    return pk.price + outside + Math.max(0, people - pk.people) * PER_PERSON;
-  };
+  const picked = ADDONS.filter(a => state.selected.has(a.id));
+  const addonSum = picked.reduce((s, a) => s + a.price, 0);
   let best = null, suggest = null;
   for (const pk of PACKS) {
-    const t = packTotal(pk);
     const missing = pk.items.filter(i => !state.selected.has(i));
-    if (!missing.length && t < sum && (!best || t < best.total)) best = { pack: pk, total: t };
+    const t = pk.price + picked.filter(a => !pk.items.includes(a.id)).reduce((s, a) => s + a.price, 0);
+    if (!missing.length && t < addonSum && (!best || t < best.total)) best = { pack: pk, total: t };
+    else if (missing.length && picked.length && t <= addonSum + 8 && (!suggest || t < suggest.total)) suggest = { pack: pk, total: t, missing };
   }
-  if (!best) for (const pk of PACKS) {
-    const t = packTotal(pk);
-    const missing = pk.items.filter(i => !state.selected.has(i));
-    if (missing.length && t <= sum + 8 && (!suggest || t < suggest.total)) suggest = { pack: pk, total: t, missing };
-  }
-  return { lines, sum, best, suggest, monthly: best ? best.total : sum };
+  if (best) suggest = null;
+  const addons = best ? best.total : addonSum;
+  return { picked, addonSum, best, suggest, monthly: BASE_PRICE + teamPrice() + addons };
 }
 
-const BASE_ROWS = [
-  { name: "Perfil, canchas y horarios" },
-  { name: "Agenda, reservas y registro de pagos" },
-];
-const ROW_NAMES = { team: "Equipo", clients: "Clientes", accounting: "Contabilidad y deudores", promotions: "Promociones", coupons: "Cuponeras", inventory: "Artículos y ventas", trainers: "Entrenadores y clases", tournaments: "Torneos" };
-
-function renderAddons() {
-  const fixed = BASE_ROWS.map(r => `<tr class="fixed"><td><div class="f-name">${r.name}</div></td><td class="c-price"><span class="f-free">Gratis</span></td><td class="c-check"><input type="checkbox" class="box" checked disabled aria-label="${r.name}: incluido"></td></tr>`).join("");
-  const rows = ADDONS.map(a => `
-    <tr class="row" id="addon-${a.id}" data-id="${a.id}">
-      <td><div class="f-name">${ROW_NAMES[a.id]}</div><div class="f-desc">${a.id === "team" ? "Un responsable incluido gratis. Tildá para sumar más personas." : a.desc}</div></td>
-      <td class="c-price"><span class="f-price">${a.id === "team" ? `${fmt(PER_PERSON)}<small> /persona</small>` : `${fmt(a.price)}<small> /mes</small>`}</span></td>
-      <td class="c-check"><input type="checkbox" class="box" id="add-${a.id}" aria-label="Incluir ${ROW_NAMES[a.id]}"></td>
-    </tr>
-    ${a.id === "team" ? `<tr class="team-row" id="team-box"><td colspan="3"><div class="team" style="margin-top:0;border-top:0;padding-top:4px">
-      <span class="team-text">¿Cuántas personas usan el panel?<br><strong id="team-cost"></strong></span>
-      <div class="stepper">
+function renderRows() {
+  const base = `
+    <tr class="group"><td><div class="f-name"><strong>Plan base</strong></div><div class="f-desc">Lo mínimo para gestionar tu club. Viene siempre incluido.</div></td>
+      <td class="c-price"><span class="f-price">${fmt(BASE_PRICE)}<small> /mes</small></span></td><td class="c-check">${lockedBox("Plan base")}</td></tr>
+    ${BASE_ITEMS.map(n => `<tr class="fixed sub"><td><div class="f-name">${n}</div></td><td class="c-price"><span class="f-free">Incluido</span></td><td class="c-check">${lockedBox(n)}</td></tr>`).join("")}
+    <tr class="fixed team-row"><td><div class="f-name">Personas extra en el equipo</div><div class="f-desc">El plan base incluye 1 persona. Cada persona extra con acceso al panel suma ${fmt(PER_PERSON)} por mes.</div></td>
+      <td class="c-price" colspan="2"><div class="stepper">
         <button type="button" id="minus" aria-label="Quitar una persona">−</button>
         <output id="people" class="num" aria-live="polite"></output>
         <button type="button" id="plus" aria-label="Sumar una persona">+</button>
-      </div></div></td></tr>` : ""}`).join("");
-  document.getElementById("rows").innerHTML = fixed + rows;
-  const toggle = id => {
-    state.selected.has(id) ? state.selected.delete(id) : state.selected.add(id);
-    if (id === "team" && state.people < 2) state.people = 2;
-    update();
-  };
+      </div><div class="f-desc" id="team-cost" style="text-align:right"></div></td></tr>
+    <tr class="divider"><td colspan="3">Extras</td></tr>`;
+  const extras = ADDONS.map(a => `
+    <tr class="row" id="addon-${a.id}">
+      <td><div class="f-name">${a.name}</div><div class="f-desc">${a.desc}</div></td>
+      <td class="c-price"><span class="f-price">${fmt(a.price)}<small> /mes</small></span></td>
+      <td class="c-check"><input type="checkbox" class="box" id="add-${a.id}" aria-label="Sumar ${a.name}"></td>
+    </tr>`).join("");
+  const soon = SOON.map(s => `
+    <tr class="fixed soon"><td><div class="f-name">${s.name} <span class="soon-tag">Próximamente</span></div><div class="f-desc">${s.desc}</div></td>
+      <td class="c-price"><span class="f-soon">—</span></td>
+      <td class="c-check"><input type="checkbox" class="box" disabled aria-label="${s.name}: próximamente"></td></tr>`).join("");
+  document.getElementById("rows").innerHTML = base + extras + soon;
+
+  const toggle = id => { state.selected.has(id) ? state.selected.delete(id) : state.selected.add(id); update(); };
   ADDONS.forEach(a => {
     document.getElementById("add-" + a.id).addEventListener("change", () => toggle(a.id));
     document.getElementById("addon-" + a.id).addEventListener("click", e => { if (e.target.tagName !== "INPUT") toggle(a.id); });
   });
-  document.getElementById("minus").addEventListener("click", () => { state.people = Math.max(2, state.people - 1); update(); });
+  document.getElementById("minus").addEventListener("click", () => { state.people = Math.max(1, state.people - 1); update(); });
   document.getElementById("plus").addEventListener("click", () => { state.people = Math.min(MAX_TEAM, state.people + 1); update(); });
 }
 
 function renderPacks() {
   document.getElementById("packs").innerHTML = PACKS.map(pk => {
-    const loose = pk.items.reduce((s, i) => s + (i === "team" ? teamPrice(pk.people) : ADDONS.find(a => a.id === i).price), 0);
+    const loose = pk.items.reduce((s, i) => s + addonById(i).price, 0);
     return `<div class="card pack">
-      <span class="addon-label">Pack</span>
+      <span class="addon-label">Pack de extras</span>
       <h3><span>${pk.name}</span><span class="price num">${fmt(pk.price)}<small> /mes</small></span></h3>
       <p>${pk.desc}</p>
       <span class="was">Por separado <s class="num">${fmt(loose)}</s> · ahorrás ${fmt(loose - pk.price)}</span>
-      <button type="button" class="btn" data-pack="${pk.id}">Elegir pack ${pk.name}</button>
+      <button type="button" class="btn" data-pack="${pk.id}">Sumar pack ${pk.name}</button>
     </div>`;
   }).join("");
   document.querySelectorAll("[data-pack]").forEach(b => b.addEventListener("click", () => applyPack(b.dataset.pack)));
 }
 
 function applyPack(id) {
-  const pk = PACKS.find(p => p.id === id);
-  pk.items.forEach(i => state.selected.add(i));
-  if (state.people < pk.people) state.people = pk.people;
+  PACKS.find(p => p.id === id).items.forEach(i => state.selected.add(i));
   update();
   document.getElementById("resumen").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
 }
@@ -432,29 +435,27 @@ function update() {
     document.getElementById("addon-" + a.id).classList.toggle("on", on);
     document.getElementById("add-" + a.id).checked = on;
   });
-  document.getElementById("team-box").hidden = !state.selected.has("team");
   document.getElementById("people").textContent = state.people;
-  document.getElementById("minus").disabled = state.people <= 2;
+  document.getElementById("minus").disabled = state.people <= 1;
   document.getElementById("plus").disabled = state.people >= MAX_TEAM;
-  document.getElementById("team-cost").textContent = `1 incluida + ${state.people - 1} extra = ${fmt(teamPrice(state.people))} /mes`;
+  document.getElementById("team-cost").textContent = extraPeople() ? `${extraPeople()} extra · ${fmt(teamPrice())} /mes` : "Sin personas extra";
 
   const r = compute();
-  const n = state.selected.size;
-  document.getElementById("count-pill").textContent = `${n} de ${ADDONS.length} funciones`;
-  document.getElementById("count-pill").style.background = n ? "" : "var(--muted)";
+  const n = r.picked.length;
+  document.getElementById("count-pill").textContent = `${n} de ${ADDONS.length} extras`;
   document.getElementById("bar").style.width = `${(n / ADDONS.length) * 100}%`;
 
-  const rows = [`<li><span>Plan básico</span><span>Gratis</span></li>`]
-    .concat(r.lines.map(l => `<li><span>${l.label}</span><span class="num">${fmt(l.price)}</span></li>`));
-  if (r.best) rows.push(`<li class="disc"><span>Descuento pack ${r.best.pack.name}</span><span class="num">−${fmt(r.sum - r.best.total)}</span></li>`);
-  if (!r.lines.length) rows.push(`<li><span class="fine">Todavía no sumaste funciones.</span><span></span></li>`);
+  const rows = [`<li><span>Plan base</span><span class="num">${fmt(BASE_PRICE)}</span></li>`];
+  if (extraPeople()) rows.push(`<li><span>${extraPeople()} ${extraPeople() === 1 ? "persona extra" : "personas extra"}</span><span class="num">${fmt(teamPrice())}</span></li>`);
+  r.picked.forEach(a => rows.push(`<li><span>${a.name}</span><span class="num">${fmt(a.price)}</span></li>`));
+  if (r.best) rows.push(`<li class="disc"><span>Descuento pack ${r.best.pack.name}</span><span class="num">−${fmt(r.addonSum - r.best.total)}</span></li>`);
   document.getElementById("lines").innerHTML = rows.join("");
 
   const tip = document.getElementById("tip");
   if (r.suggest) {
-    const names = r.suggest.missing.map(i => ADDONS.find(a => a.id === i).name).join(", ");
-    const diff = r.suggest.total - r.monthly;
-    tip.innerHTML = `<span>Con el <strong>pack ${r.suggest.pack.name}</strong> sumás ${names} ${diff <= 0 ? `y pagás ${fmt(-diff)} menos` : `por solo ${fmt(diff)} más`}.</span><button type="button" class="btn" id="tip-btn">Pasar al pack ${r.suggest.pack.name}</button>`;
+    const names = r.suggest.missing.map(i => addonById(i).name).join(", ");
+    const diff = r.suggest.total - (r.best ? r.best.total : r.addonSum);
+    tip.innerHTML = `<span>Con el <strong>pack ${r.suggest.pack.name}</strong> sumás ${names} ${diff <= 0 ? `y pagás ${fmt(-diff)} menos` : `por solo ${fmt(diff)} más`}.</span><button type="button" class="btn" id="tip-btn">Sumar pack ${r.suggest.pack.name}</button>`;
     tip.hidden = false;
     document.getElementById("tip-btn").addEventListener("click", () => applyPack(r.suggest.pack.id));
   } else tip.hidden = true;
@@ -464,19 +465,20 @@ function update() {
   const unit = state.yearly ? " /año" : " /mes";
   ["total-label", "m-label"].forEach(id => document.getElementById(id).textContent = label);
   ["total", "m-total"].forEach(id => document.getElementById(id).innerHTML = `${fmt(amount)}<small>${unit}</small>`);
-  document.getElementById("total-sub").textContent = !r.monthly ? "Solo el plan básico: no pagás nada."
-    : state.yearly ? `Equivale a ${fmt(+(amount / 12).toFixed(2))} por mes. Te ahorrás ${fmt(r.monthly * 2)}.`
+  document.getElementById("total-sub").textContent = state.yearly
+    ? `Equivale a ${fmt(+(amount / 12).toFixed(2))} por mes. Te ahorrás ${fmt(r.monthly * 2)}.`
     : `Pagando anual serían ${fmt(r.monthly * 10)} (2 meses gratis).`;
 
   document.getElementById("p-month").setAttribute("aria-pressed", !state.yearly);
   document.getElementById("p-year").setAttribute("aria-pressed", state.yearly);
 
-  document.getElementById("summary-text").value = ["Hola PadPoint, quiero este plan para mi club:", "", "• Plan básico (gratis)"]
-    .concat(r.lines.map(l => `• ${l.label}: ${fmt(l.price)}/mes`))
-    .concat(r.best ? [`• Descuento pack ${r.best.pack.name}: −${fmt(r.sum - r.best.total)}/mes`] : [])
+  document.getElementById("summary-text").value = ["Hola PadPoint, quiero este plan para mi club:", "", `• Plan base: ${fmt(BASE_PRICE)}/mes (perfil, canchas, horarios, agenda, reservas, pagos, clientes y 1 persona)`]
+    .concat(extraPeople() ? [`• ${extraPeople()} personas extra en el equipo: ${fmt(teamPrice())}/mes`] : [])
+    .concat(r.picked.map(a => `• ${a.name}: ${fmt(a.price)}/mes`))
+    .concat(r.best ? [`• Descuento pack ${r.best.pack.name}: −${fmt(r.addonSum - r.best.total)}/mes`] : [])
     .concat(["", `Total: ${fmt(amount)}${unit}${state.yearly ? " (pago anual)" : ""}`]).join("\n");
 
-  try { localStorage.setItem("pp-plan", JSON.stringify({ selected: [...state.selected], people: state.people, yearly: state.yearly })); } catch (e) {}
+  try { localStorage.setItem("pp-plan-v2", JSON.stringify({ selected: [...state.selected], people: state.people, yearly: state.yearly })); } catch (e) {}
 }
 
 document.getElementById("p-month").addEventListener("click", () => { state.yearly = false; update(); });
@@ -492,7 +494,7 @@ document.getElementById("copy").addEventListener("click", e => {
     .catch(() => { ta.focus(); ta.select(); btn.textContent = "Copialo con Ctrl/Cmd + C"; });
 });
 
-renderAddons();
+renderRows();
 renderPacks();
 update();
 </script>
