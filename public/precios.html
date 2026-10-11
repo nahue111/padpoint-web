@@ -173,6 +173,39 @@ footer .wrap { display: grid; gap: 28px; }
   .card { padding: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* Tabla de funciones (formato "Tu plan") */
+.table-card { padding: 0; overflow: hidden; }
+.table-scroll { overflow-x: auto; }
+.plan-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.plan-table th { text-align: left; font-weight: 600; color: var(--blue); padding: 20px 20px 16px; border-bottom: 1px solid var(--line); font-size: 15px; }
+.plan-table td { padding: 16px 20px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.plan-table tbody tr:last-child td { border-bottom: 0; }
+.plan-table tr.row { cursor: pointer; transition: background .15s; }
+.plan-table tr.row:hover { background: var(--soft); }
+.plan-table tr.row.on { background: var(--blue-wash); }
+.plan-table tr.fixed { cursor: default; }
+.c-price { width: 1%; white-space: nowrap; text-align: right !important; }
+.c-check { width: 1%; text-align: center !important; }
+.f-name { color: #1a1a1a; font-weight: 500; }
+.f-desc { font-size: 13.5px; color: var(--muted); margin-top: 2px; line-height: 1.45; }
+.f-price { color: var(--blue); font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.f-price small { font-weight: 500; color: var(--blue-50); font-size: 12.5px; }
+.f-free { color: var(--green); font-weight: 600; }
+.box { appearance: none; -webkit-appearance: none; width: 24px; height: 24px; border: 1.5px solid #c9ced8; border-radius: 6px; background: var(--white); display: inline-grid; place-items: center; cursor: pointer; margin: 0; transition: background .15s, border-color .15s; }
+.box::after { content: ""; width: 12px; height: 7px; border: solid var(--white); border-width: 0 0 2.5px 2.5px; transform: rotate(-45deg) translate(1px, -1px); opacity: 0; }
+.box:checked { background: var(--blue); border-color: var(--blue); }
+.box:checked::after { opacity: 1; }
+.box:disabled { cursor: default; background: var(--green); border-color: var(--green); }
+.box:hover:not(:disabled) { border-color: var(--blue); }
+tr.team-row td { background: var(--blue-wash); padding-top: 0; }
+@media (max-width: 700px) {
+  .plan-table th, .plan-table td { padding: 14px 8px; }
+  .plan-table th:first-child, .plan-table td:first-child { padding-left: 16px; }
+  .plan-table th:last-child, .plan-table td:last-child { padding-right: 16px; }
+  .plan-table { font-size: 15px; }
+  .f-desc, .f-price small, .c-check .th-label { display: none; }
+}
 </style>
 </head>
 <body>
@@ -204,30 +237,19 @@ footer .wrap { display: grid; gap: 28px; }
 
 <main class="wrap main">
   <div class="col">
-    <section class="card base" aria-labelledby="base-title">
-      <div class="base-top">
-        <div>
-          <span class="addon-label">Incluido siempre</span>
-          <h2 id="base-title">Plan básico</h2>
-        </div>
-        <span class="pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gratis</span>
-      </div>
-      <ul class="checks">
-        <li><img class="ball" src="/pelota.webp" alt="">Perfil del club</li>
-        <li><img class="ball" src="/pelota.webp" alt="">Canchas y horarios</li>
-        <li><img class="ball" src="/pelota.webp" alt="">Agenda y reservas</li>
-        <li><img class="ball" src="/pelota.webp" alt="">Registro de pagos de canchas</li>
-        <li><img class="ball" src="/pelota.webp" alt="">Un responsable con acceso</li>
-        <li><img class="ball" src="/pelota.webp" alt="">Tu club visible en la app</li>
-      </ul>
-    </section>
-
-    <div class="section-head">
+    <div class="section-head" style="margin-top:0">
       <span class="eyebrow"><img src="/pelota.webp" alt="">Funciones</span>
-      <h2>Sumá lo que tu club necesita</h2>
-      <p>Cada función se agrega sola al plan básico. Tocá "Sumar" para agregarla.</p>
+      <h2>Tildá lo que tu club necesita</h2>
+      <p>Lo básico ya viene incluido y es gratis. Cada función que tildás se suma al total.</p>
     </div>
-    <div class="col" id="addons"></div>
+    <div class="card table-card">
+      <div class="table-scroll">
+        <table class="plan-table">
+          <thead><tr><th scope="col">Funciones</th><th scope="col" class="c-price">Precio</th><th scope="col" class="c-check"><span class="th-label">Incluir</span></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
 
     <div class="section-head">
       <span class="eyebrow"><img src="/pelota.webp" alt="">Packs</span>
@@ -347,35 +369,37 @@ function compute() {
   return { lines, sum, best, suggest, monthly: best ? best.total : sum };
 }
 
+const BASE_ROWS = [
+  { name: "Perfil, canchas y horarios" },
+  { name: "Agenda, reservas y registro de pagos" },
+];
+const ROW_NAMES = { team: "Equipo", clients: "Clientes", accounting: "Contabilidad y deudores", promotions: "Promociones", coupons: "Cuponeras", inventory: "Artículos y ventas", trainers: "Entrenadores y clases", tournaments: "Torneos" };
+
 function renderAddons() {
-  const root = document.getElementById("addons");
-  root.innerHTML = ADDONS.map(a => `
-    <article class="card addon" id="addon-${a.id}" data-id="${a.id}">
-      <div style="min-width:0">
-        <span class="addon-label">${a.tag}</span>
-        <h3>${a.name}</h3>
-        <p class="desc">${a.desc}</p>
-        ${a.note ? `<p class="note">${a.note}</p>` : ""}
-      </div>
-      <div class="addon-side">
-        <span class="price num">${a.id === "team" ? `${fmt(PER_PERSON)}<small> /persona</small>` : `${fmt(a.price)}<small> /mes</small>`}</span>
-        <button type="button" class="btn btn-ghost add" id="add-${a.id}" aria-pressed="false"></button>
-      </div>
-      ${a.id === "team" ? `
-      <div class="team" id="team-box">
-        <span class="team-text">¿Cuántas personas usan el panel?<br><strong id="team-cost"></strong></span>
-        <div class="stepper">
-          <button type="button" id="minus" aria-label="Quitar una persona">−</button>
-          <output id="people" class="num" aria-live="polite"></output>
-          <button type="button" id="plus" aria-label="Sumar una persona">+</button>
-        </div>
-      </div>` : ""}
-    </article>`).join("");
-  ADDONS.forEach(a => document.getElementById("add-" + a.id).addEventListener("click", () => {
-    state.selected.has(a.id) ? state.selected.delete(a.id) : state.selected.add(a.id);
-    if (a.id === "team" && state.people < 2) state.people = 2;
+  const fixed = BASE_ROWS.map(r => `<tr class="fixed"><td><div class="f-name">${r.name}</div></td><td class="c-price"><span class="f-free">Gratis</span></td><td class="c-check"><input type="checkbox" class="box" checked disabled aria-label="${r.name}: incluido"></td></tr>`).join("");
+  const rows = ADDONS.map(a => `
+    <tr class="row" id="addon-${a.id}" data-id="${a.id}">
+      <td><div class="f-name">${ROW_NAMES[a.id]}</div><div class="f-desc">${a.id === "team" ? "Un responsable incluido gratis. Tildá para sumar más personas." : a.desc}</div></td>
+      <td class="c-price"><span class="f-price">${a.id === "team" ? `${fmt(PER_PERSON)}<small> /persona</small>` : `${fmt(a.price)}<small> /mes</small>`}</span></td>
+      <td class="c-check"><input type="checkbox" class="box" id="add-${a.id}" aria-label="Incluir ${ROW_NAMES[a.id]}"></td>
+    </tr>
+    ${a.id === "team" ? `<tr class="team-row" id="team-box"><td colspan="3"><div class="team" style="margin-top:0;border-top:0;padding-top:4px">
+      <span class="team-text">¿Cuántas personas usan el panel?<br><strong id="team-cost"></strong></span>
+      <div class="stepper">
+        <button type="button" id="minus" aria-label="Quitar una persona">−</button>
+        <output id="people" class="num" aria-live="polite"></output>
+        <button type="button" id="plus" aria-label="Sumar una persona">+</button>
+      </div></div></td></tr>` : ""}`).join("");
+  document.getElementById("rows").innerHTML = fixed + rows;
+  const toggle = id => {
+    state.selected.has(id) ? state.selected.delete(id) : state.selected.add(id);
+    if (id === "team" && state.people < 2) state.people = 2;
     update();
-  }));
+  };
+  ADDONS.forEach(a => {
+    document.getElementById("add-" + a.id).addEventListener("change", () => toggle(a.id));
+    document.getElementById("addon-" + a.id).addEventListener("click", e => { if (e.target.tagName !== "INPUT") toggle(a.id); });
+  });
   document.getElementById("minus").addEventListener("click", () => { state.people = Math.max(2, state.people - 1); update(); });
   document.getElementById("plus").addEventListener("click", () => { state.people = Math.min(MAX_TEAM, state.people + 1); update(); });
 }
@@ -406,10 +430,7 @@ function update() {
   ADDONS.forEach(a => {
     const on = state.selected.has(a.id);
     document.getElementById("addon-" + a.id).classList.toggle("on", on);
-    const b = document.getElementById("add-" + a.id);
-    b.className = on ? "btn add" : "btn btn-ghost add";
-    b.setAttribute("aria-pressed", on);
-    b.innerHTML = on ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Agregado` : "+ Sumar";
+    document.getElementById("add-" + a.id).checked = on;
   });
   document.getElementById("team-box").hidden = !state.selected.has("team");
   document.getElementById("people").textContent = state.people;
