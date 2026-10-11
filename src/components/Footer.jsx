@@ -17,6 +17,7 @@ const linkGroups = {
     { label: 'Ranking', href: '#ranking' },
     { label: 'Entrenadores', href: '#entrenadores' },
     { label: 'Torneos', href: '#torneos' },
+    { label: 'Precios', href: '/precios' },
   ],
   Club: [
     { label: 'Sumar mi club', href: '#contacto' },

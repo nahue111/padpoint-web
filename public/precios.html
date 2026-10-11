@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Precios — PadPoint</title>
+<meta name="description" content="Armá el plan de tu club: el plan básico es gratis y sumás solo las funciones que usás.">
+<link rel="canonical" href="https://padpoint.com.uy/precios" />
+<link rel="icon" type="image/jpeg" href="/logopad.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: same as padpoint.com.uy — white page, fixed blurred nav, blue Inter headings, 50% blue eyebrows, white cards with #e5e5e5 border + blue drop shadow, blue footer. Single light theme like the live site. */
+:root {
+  --blue: #0047b3;
+  --blue-hover: #0066ff;
+  --blue-50: rgba(0, 71, 179, .5);
+  --blue-wash: #f0f5fd;
+  --text: #4a4a4a;
+  --muted: #8a8a8a;
+  --line: #e5e5e5;
+  --soft: #fafafa;
+  --lime: #c6f24a;
+  --green: #22a45d;
+  --green-wash: #e8f7ee;
+  --white: #ffffff;
+  --shadow: 0 18px 50px -30px rgba(0, 71, 179, .4);
+  --font: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+img { max-width: 100%; }
+body { background: var(--white); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.5; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { margin: 0; color: var(--blue); text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+button { font: inherit; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 6px; }
+.num { font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 24px; }
+
+/* Nav (copiado del sitio) */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--blue); font-weight: 600; font-size: 17px; text-decoration: none; letter-spacing: -0.02em; }
+.brand img { width: 32px; height: 32px; border-radius: 8px; }
+.links { display: flex; gap: 32px; font-size: 15px; }
+.links a { text-decoration: none; color: var(--text); transition: color .2s; }
+.links a:hover, .links a[aria-current="page"] { color: var(--blue); }
+.links a[aria-current="page"] { font-weight: 600; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--blue); color: var(--white); font-size: 15px; font-weight: 500; padding: 10px 20px; border-radius: 8px; border: 0; cursor: pointer; text-decoration: none; transition: background .2s, transform .2s; letter-spacing: -0.01em; }
+.btn:hover { background: var(--blue-hover); }
+.btn:active { transform: scale(.97); }
+.btn-ghost { background: transparent; color: var(--blue); border: 1px solid var(--line); }
+.btn-ghost:hover { background: transparent; border-color: var(--blue); }
+
+/* Hero */
+.hero { padding-block: 72px 48px; display: grid; gap: 20px; }
+.hero > * { max-width: 680px; }
+.eyebrow { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--blue-50); }
+.eyebrow img, .ball { width: 18px; height: 18px; border-radius: 50%; flex: none; }
+.hero h1 { font-size: clamp(2.5rem, 5.5vw, 3.5rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; }
+.hl { position: relative; white-space: nowrap; }
+.hl::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 8px; background: no-repeat center/100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 Q 50 1 100 4 T 198 3' stroke='%23c6f24a' stroke-width='3.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.hero p { font-size: 17px; line-height: 1.625; }
+.period { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; padding: 4px; gap: 4px; justify-self: start; }
+.period button { border: 0; background: transparent; color: var(--blue); padding: 8px 16px; border-radius: 7px; cursor: pointer; font-size: 14px; font-weight: 500; }
+.period button[aria-pressed="true"] { background: var(--blue); color: var(--white); }
+.period .tag { font-size: 11px; font-weight: 600; background: var(--lime); color: #1d2a00; border-radius: 999px; padding: 2px 7px; margin-left: 6px; }
+
+/* Layout */
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 40px; align-items: start; padding-bottom: 96px; }
+.col { display: grid; gap: 16px; min-width: 0; }
+.section-head { display: grid; gap: 6px; margin-top: 32px; }
+.section-head h2 { font-size: 24px; font-weight: 600; letter-spacing: -0.03em; }
+.section-head p { font-size: 15px; }
+
+.card { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); }
+
+/* Base plan */
+.base { display: grid; gap: 16px; }
+.base-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.base h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.03em; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; background: var(--green); color: var(--white); white-space: nowrap; }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; font-size: 15px; }
+.checks li { display: flex; gap: 10px; align-items: center; }
+
+/* Add-ons */
+.addon { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 20px; align-items: center; transition: border-color .2s, background .2s; }
+.addon.on { border-color: var(--blue); background: linear-gradient(var(--blue-wash), var(--white) 70%); }
+.addon-label { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--blue-50); }
+.addon h3 { font-size: 19px; font-weight: 600; letter-spacing: -0.02em; margin-top: 2px; }
+.addon .desc { font-size: 15px; margin-top: 6px; line-height: 1.55; }
+.addon .note { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.addon-side { display: grid; justify-items: end; gap: 10px; }
+.price { color: var(--blue); font-weight: 600; font-size: 20px; letter-spacing: -0.02em; white-space: nowrap; }
+.price small { font-size: 13px; font-weight: 500; color: var(--blue-50); }
+.add { min-width: 120px; }
+.addon.on .add { background: var(--green); }
+.addon.on .add:hover { background: #1b8a4e; }
+
+.team { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+.team-text { font-size: 14px; }
+.team-text strong { color: var(--blue); font-weight: 600; }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 8px; background: var(--white); }
+.stepper button { width: 42px; height: 42px; border: 0; background: transparent; color: var(--blue); font-size: 20px; cursor: pointer; border-radius: 8px; }
+.stepper button:hover:not(:disabled) { background: var(--blue-wash); }
+.stepper button:disabled { opacity: .3; cursor: not-allowed; }
+.stepper output { min-width: 48px; text-align: center; color: var(--blue); font-weight: 600; font-size: 17px; }
+
+/* Packs */
+.packs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.pack { display: grid; gap: 10px; align-content: start; }
+.pack h3 { font-size: 19px; font-weight: 600; letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.pack p { font-size: 14px; }
+.pack .was { font-size: 13px; color: var(--muted); }
+.pack .was s { color: var(--muted); }
+.pack .btn { justify-self: start; margin-top: 4px; }
+
+/* Summary */
+.summary { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 92px); display: grid; gap: 18px; }
+.summary-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.summary-top .addon-label { margin: 0; }
+.summary h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.03em; margin-top: 2px; }
+.lines { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 15px; }
+.lines li { display: flex; justify-content: space-between; gap: 12px; }
+.lines li span:last-child { color: var(--blue); font-weight: 500; white-space: nowrap; }
+.lines .disc span { color: var(--green) !important; font-weight: 600; }
+.tip { background: var(--blue-wash); border-radius: 12px; padding: 14px; font-size: 14px; display: grid; gap: 10px; color: var(--blue); }
+.tip .btn { justify-self: start; padding: 8px 14px; font-size: 14px; }
+.total { border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 4px; }
+.total-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.total-label { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--blue-50); }
+.total-amount { color: var(--blue); font-size: 36px; font-weight: 700; letter-spacing: -0.03em; }
+.total-amount small { font-size: 14px; font-weight: 500; color: var(--blue-50); letter-spacing: 0; }
+.total-sub { font-size: 13px; color: var(--muted); }
+.progress { height: 6px; border-radius: 999px; background: #eef0f3; overflow: hidden; }
+.progress span { display: block; height: 100%; background: var(--green); border-radius: 999px; transition: width .3s; }
+.summary .btn { width: 100%; padding: 14px 20px; }
+.copy-area { width: 100%; min-height: 150px; font: 13px/1.5 var(--font); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; color: var(--blue); background: var(--white); resize: vertical; }
+.fine { font-size: 12.5px; color: var(--muted); }
+
+/* Footer (copiado del sitio) */
+footer { background: var(--blue); color: var(--white); padding-block: 56px 32px; }
+footer .wrap { display: grid; gap: 28px; }
+.foot-top { display: flex; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.foot-top .brand { color: var(--white); }
+.foot-top p { color: rgba(255,255,255,.75); font-size: 14px; max-width: 32ch; margin-top: 14px; }
+.foot-contact { display: grid; gap: 6px; font-size: 14px; color: rgba(255,255,255,.85); align-content: start; }
+.foot-contact span:first-child { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+.foot-bottom { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px; color: rgba(255,255,255,.5); border-top: 1px solid rgba(255,255,255,.12); padding-top: 20px; }
+
+/* Mobile bar */
+.mbar { display: none; }
+
+@media (max-width: 960px) {
+  .links { display: none; }
+  .main { grid-template-columns: minmax(0, 1fr); padding-bottom: 120px; }
+  .summary { position: static; }
+  .mbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: rgba(255,255,255,.96); backdrop-filter: blur(20px); border-top: 1px solid var(--line); padding: 12px 24px calc(12px + env(safe-area-inset-bottom, 0px)); justify-content: space-between; align-items: center; gap: 12px; }
+  .mbar .total-amount { font-size: 24px; }
+}
+@media (max-width: 600px) {
+  .wrap { padding-inline: 16px; }
+  .nav .btn { padding: 8px 14px; font-size: 14px; }
+  .hero { padding-block: 40px 32px; }
+  .checks, .packs { grid-template-columns: minmax(0, 1fr); }
+  .addon { grid-template-columns: minmax(0, 1fr); }
+  .addon-side { display: flex; justify-content: space-between; align-items: center; }
+  .card { padding: 20px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Principal">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/logopad.jpg" alt="">PadPoint</a>
+    <div class="links">
+      <a href="/#como-funciona">Cómo funciona</a>
+      <a href="/#ranking">Ranking</a>
+      <a href="/#entrenadores">Entrenadores</a>
+      <a href="/#torneos">Torneos</a>
+      <a href="/precios" aria-current="page">Precios</a>
+      <a href="/#contacto">Contacto</a>
+    </div>
+    <a class="btn" href="/#contacto">Sumar mi club</a>
+  </div>
+</nav>
+
+<header class="wrap hero">
+  <span class="eyebrow"><img src="/pelota.webp" alt="">Precios</span>
+  <h1>Armá el plan de <span class="hl">tu club.</span></h1>
+  <p>Empezás con lo básico gratis y sumás solo lo que tu club usa. Sin funciones que no necesitás, y lo cambiás cuando quieras.</p>
+  <div class="period" role="group" aria-label="Forma de pago">
+    <button type="button" id="p-month" aria-pressed="true">Mensual</button>
+    <button type="button" id="p-year" aria-pressed="false">Anual<span class="tag">2 meses gratis</span></button>
+  </div>
+</header>
+
+<main class="wrap main">
+  <div class="col">
+    <section class="card base" aria-labelledby="base-title">
+      <div class="base-top">
+        <div>
+          <span class="addon-label">Incluido siempre</span>
+          <h2 id="base-title">Plan básico</h2>
+        </div>
+        <span class="pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gratis</span>
+      </div>
+      <ul class="checks">
+        <li><img class="ball" src="/pelota.webp" alt="">Perfil del club</li>
+        <li><img class="ball" src="/pelota.webp" alt="">Canchas y horarios</li>
+        <li><img class="ball" src="/pelota.webp" alt="">Agenda y reservas</li>
+        <li><img class="ball" src="/pelota.webp" alt="">Registro de pagos de canchas</li>
+        <li><img class="ball" src="/pelota.webp" alt="">Un responsable con acceso</li>
+        <li><img class="ball" src="/pelota.webp" alt="">Tu club visible en la app</li>
+      </ul>
+    </section>
+
+    <div class="section-head">
+      <span class="eyebrow"><img src="/pelota.webp" alt="">Funciones</span>
+      <h2>Sumá lo que tu club necesita</h2>
+      <p>Cada función se agrega sola al plan básico. Tocá "Sumar" para agregarla.</p>
+    </div>
+    <div class="col" id="addons"></div>
+
+    <div class="section-head">
+      <span class="eyebrow"><img src="/pelota.webp" alt="">Packs</span>
+      <h2>O elegí un pack armado</h2>
+      <p>Si vas a usar varias funciones, el pack te sale más barato.</p>
+    </div>
+    <div class="packs" id="packs"></div>
+  </div>
+
+  <aside class="card summary" id="resumen" aria-labelledby="sum-title">
+    <div class="summary-top">
+      <div>
+        <span class="addon-label">Resumen</span>
+        <h2 id="sum-title">Tu plan</h2>
+      </div>
+      <span class="pill" id="count-pill"></span>
+    </div>
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+    <ul class="lines" id="lines"></ul>
+    <div class="tip" id="tip" hidden></div>
+    <div class="total">
+      <div class="total-row">
+        <span class="total-label" id="total-label">Total por mes</span>
+        <span class="total-amount num" id="total"></span>
+      </div>
+      <span class="total-sub" id="total-sub"></span>
+    </div>
+    <button type="button" class="btn" id="request">Quiero este plan
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
+    </button>
+    <div id="request-box" hidden>
+      <p class="fine" style="margin-bottom:8px">Si no se abrió WhatsApp, copiá el resumen y mandalo al 092 060 245 o a soporte@padpoint.com.uy.</p>
+      <textarea class="copy-area" id="summary-text" readonly aria-label="Resumen del plan"></textarea>
+      <button type="button" class="btn btn-ghost" id="copy" style="margin-top:8px">Copiar resumen</button>
+    </div>
+    <p class="fine">Precios en dólares, sin impuestos.</p>
+  </aside>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <span class="brand"><img src="/logopad.jpg" alt="">PadPoint</span>
+        <p>Reservas, ranking, clases y torneos para clubes de pádel. Todo en un mismo lugar.</p>
+      </div>
+      <div class="foot-contact">
+        <span>Contacto</span>
+        <span>soporte@padpoint.com.uy</span>
+        <span>WhatsApp 092 060 245</span>
+        <span>@padpoint_uy</span>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 PadPoint. Todos los derechos reservados.</span>
+      <span>Hecho en Montevideo, Uruguay</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <div>
+    <div class="total-label" id="m-label">Total por mes</div>
+    <div class="total-amount num" id="m-total"></div>
+  </div>
+  <a class="btn" href="#resumen">Ver mi plan</a>
+</div>
+
+<script>
+const ADDONS = [
+  { id: "team", tag: "Personal", name: "Equipo", price: 0, desc: "Sumá empleados al panel, cada uno con su usuario y sus permisos.", note: "Un responsable viene incluido. Cada persona extra: US$ 2 por mes." },
+  { id: "clients", tag: "Gestión", name: "Clientes", price: 8, desc: "La ficha de cada jugador con su historial de reservas, pagos y etiquetas." },
+  { id: "accounting", tag: "Gestión", name: "Contabilidad y deudores", price: 20, desc: "Caja del día, gastos, reportes y quién te debe, con aviso por WhatsApp." },
+  { id: "promotions", tag: "Gestión", name: "Promociones", price: 4, desc: "Descuentos y regalos para llenar horarios flojos o premiar a los que más juegan." },
+  { id: "coupons", tag: "Gestión", name: "Cuponeras", price: 8, desc: "Vendé packs de horas o clases y se descuentan solos en cada reserva.", note: "Las ventas quedan registradas en Contabilidad." },
+  { id: "inventory", tag: "Pro", name: "Artículos y ventas", price: 10, desc: "Stock y venta de bebidas, pelotas, paletas y alquiler de equipo.", note: "Las ventas quedan registradas en Contabilidad." },
+  { id: "trainers", tag: "Pro", name: "Entrenadores y clases", price: 25, desc: "Cada profe publica sus horarios y los alumnos reservan directo desde la app. Incluye liquidaciones." },
+  { id: "tournaments", tag: "Pro", name: "Torneos", price: 20, desc: "Inscripciones desde la app, cuadros, horarios en tus canchas y resultados que mueven el ranking." },
+];
+const PER_PERSON = 2;
+const MAX_TEAM = 30;
+const PACKS = [
+  { id: "gestion", name: "Gestión", price: 35, people: 5, items: ["team", "clients", "accounting", "promotions", "coupons"], desc: "Equipo de hasta 5 personas, Clientes, Contabilidad y deudores, Promociones y Cuponeras." },
+  { id: "pro", name: "Pro", price: 69, people: 10, items: ADDONS.map(a => a.id), desc: "Todas las funciones y equipo de hasta 10 personas." },
+];
+
+const state = { selected: new Set(["clients", "accounting"]), people: 3, yearly: false };
+try {
+  const saved = JSON.parse(localStorage.getItem("pp-plan") || "null");
+  if (saved) { state.selected = new Set(saved.selected); state.people = saved.people; state.yearly = saved.yearly; }
+} catch (e) {}
+
+const fmt = n => "US$ " + (Number.isInteger(n) ? n : n.toFixed(2).replace(".", ","));
+const teamPrice = people => Math.max(0, people - 1) * PER_PERSON;
+const priceOf = id => id === "team" ? teamPrice(state.people) : ADDONS.find(a => a.id === id).price;
+
+function compute() {
+  const lines = ADDONS.filter(a => state.selected.has(a.id))
+    .map(a => ({ label: a.id === "team" ? `Equipo · ${state.people} personas` : a.name, price: priceOf(a.id) }));
+  const sum = lines.reduce((s, l) => s + l.price, 0);
+  const packTotal = pk => {
+    const outside = ADDONS.filter(a => state.selected.has(a.id) && !pk.items.includes(a.id)).reduce((s, a) => s + a.price, 0);
+    const people = state.selected.has("team") ? state.people : 1;
+    return pk.price + outside + Math.max(0, people - pk.people) * PER_PERSON;
+  };
+  let best = null, suggest = null;
+  for (const pk of PACKS) {
+    const t = packTotal(pk);
+    const missing = pk.items.filter(i => !state.selected.has(i));
+    if (!missing.length && t < sum && (!best || t < best.total)) best = { pack: pk, total: t };
+  }
+  if (!best) for (const pk of PACKS) {
+    const t = packTotal(pk);
+    const missing = pk.items.filter(i => !state.selected.has(i));
+    if (missing.length && t <= sum + 8 && (!suggest || t < suggest.total)) suggest = { pack: pk, total: t, missing };
+  }
+  return { lines, sum, best, suggest, monthly: best ? best.total : sum };
+}
+
+function renderAddons() {
+  const root = document.getElementById("addons");
+  root.innerHTML = ADDONS.map(a => `
+    <article class="card addon" id="addon-${a.id}" data-id="${a.id}">
+      <div style="min-width:0">
+        <span class="addon-label">${a.tag}</span>
+        <h3>${a.name}</h3>
+        <p class="desc">${a.desc}</p>
+        ${a.note ? `<p class="note">${a.note}</p>` : ""}
+      </div>
+      <div class="addon-side">
+        <span class="price num">${a.id === "team" ? `${fmt(PER_PERSON)}<small> /persona</small>` : `${fmt(a.price)}<small> /mes</small>`}</span>
+        <button type="button" class="btn btn-ghost add" id="add-${a.id}" aria-pressed="false"></button>
+      </div>
+      ${a.id === "team" ? `
+      <div class="team" id="team-box">
+        <span class="team-text">¿Cuántas personas usan el panel?<br><strong id="team-cost"></strong></span>
+        <div class="stepper">
+          <button type="button" id="minus" aria-label="Quitar una persona">−</button>
+          <output id="people" class="num" aria-live="polite"></output>
+          <button type="button" id="plus" aria-label="Sumar una persona">+</button>
+        </div>
+      </div>` : ""}
+    </article>`).join("");
+  ADDONS.forEach(a => document.getElementById("add-" + a.id).addEventListener("click", () => {
+    state.selected.has(a.id) ? state.selected.delete(a.id) : state.selected.add(a.id);
+    if (a.id === "team" && state.people < 2) state.people = 2;
+    update();
+  }));
+  document.getElementById("minus").addEventListener("click", () => { state.people = Math.max(2, state.people - 1); update(); });
+  document.getElementById("plus").addEventListener("click", () => { state.people = Math.min(MAX_TEAM, state.people + 1); update(); });
+}
+
+function renderPacks() {
+  document.getElementById("packs").innerHTML = PACKS.map(pk => {
+    const loose = pk.items.reduce((s, i) => s + (i === "team" ? teamPrice(pk.people) : ADDONS.find(a => a.id === i).price), 0);
+    return `<div class="card pack">
+      <span class="addon-label">Pack</span>
+      <h3><span>${pk.name}</span><span class="price num">${fmt(pk.price)}<small> /mes</small></span></h3>
+      <p>${pk.desc}</p>
+      <span class="was">Por separado <s class="num">${fmt(loose)}</s> · ahorrás ${fmt(loose - pk.price)}</span>
+      <button type="button" class="btn" data-pack="${pk.id}">Elegir pack ${pk.name}</button>
+    </div>`;
+  }).join("");
+  document.querySelectorAll("[data-pack]").forEach(b => b.addEventListener("click", () => applyPack(b.dataset.pack)));
+}
+
+function applyPack(id) {
+  const pk = PACKS.find(p => p.id === id);
+  pk.items.forEach(i => state.selected.add(i));
+  if (state.people < pk.people) state.people = pk.people;
+  update();
+  document.getElementById("resumen").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
+}
+
+function update() {
+  ADDONS.forEach(a => {
+    const on = state.selected.has(a.id);
+    document.getElementById("addon-" + a.id).classList.toggle("on", on);
+    const b = document.getElementById("add-" + a.id);
+    b.className = on ? "btn add" : "btn btn-ghost add";
+    b.setAttribute("aria-pressed", on);
+    b.innerHTML = on ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Agregado` : "+ Sumar";
+  });
+  document.getElementById("team-box").hidden = !state.selected.has("team");
+  document.getElementById("people").textContent = state.people;
+  document.getElementById("minus").disabled = state.people <= 2;
+  document.getElementById("plus").disabled = state.people >= MAX_TEAM;
+  document.getElementById("team-cost").textContent = `1 incluida + ${state.people - 1} extra = ${fmt(teamPrice(state.people))} /mes`;
+
+  const r = compute();
+  const n = state.selected.size;
+  document.getElementById("count-pill").textContent = `${n} de ${ADDONS.length} funciones`;
+  document.getElementById("count-pill").style.background = n ? "" : "var(--muted)";
+  document.getElementById("bar").style.width = `${(n / ADDONS.length) * 100}%`;
+
+  const rows = [`<li><span>Plan básico</span><span>Gratis</span></li>`]
+    .concat(r.lines.map(l => `<li><span>${l.label}</span><span class="num">${fmt(l.price)}</span></li>`));
+  if (r.best) rows.push(`<li class="disc"><span>Descuento pack ${r.best.pack.name}</span><span class="num">−${fmt(r.sum - r.best.total)}</span></li>`);
+  if (!r.lines.length) rows.push(`<li><span class="fine">Todavía no sumaste funciones.</span><span></span></li>`);
+  document.getElementById("lines").innerHTML = rows.join("");
+
+  const tip = document.getElementById("tip");
+  if (r.suggest) {
+    const names = r.suggest.missing.map(i => ADDONS.find(a => a.id === i).name).join(", ");
+    const diff = r.suggest.total - r.monthly;
+    tip.innerHTML = `<span>Con el <strong>pack ${r.suggest.pack.name}</strong> sumás ${names} ${diff <= 0 ? `y pagás ${fmt(-diff)} menos` : `por solo ${fmt(diff)} más`}.</span><button type="button" class="btn" id="tip-btn">Pasar al pack ${r.suggest.pack.name}</button>`;
+    tip.hidden = false;
+    document.getElementById("tip-btn").addEventListener("click", () => applyPack(r.suggest.pack.id));
+  } else tip.hidden = true;
+
+  const label = state.yearly ? "Total por año" : "Total por mes";
+  const amount = state.yearly ? r.monthly * 10 : r.monthly;
+  const unit = state.yearly ? " /año" : " /mes";
+  ["total-label", "m-label"].forEach(id => document.getElementById(id).textContent = label);
+  ["total", "m-total"].forEach(id => document.getElementById(id).innerHTML = `${fmt(amount)}<small>${unit}</small>`);
+  document.getElementById("total-sub").textContent = !r.monthly ? "Solo el plan básico: no pagás nada."
+    : state.yearly ? `Equivale a ${fmt(+(amount / 12).toFixed(2))} por mes. Te ahorrás ${fmt(r.monthly * 2)}.`
+    : `Pagando anual serían ${fmt(r.monthly * 10)} (2 meses gratis).`;
+
+  document.getElementById("p-month").setAttribute("aria-pressed", !state.yearly);
+  document.getElementById("p-year").setAttribute("aria-pressed", state.yearly);
+
+  document.getElementById("summary-text").value = ["Hola PadPoint, quiero este plan para mi club:", "", "• Plan básico (gratis)"]
+    .concat(r.lines.map(l => `• ${l.label}: ${fmt(l.price)}/mes`))
+    .concat(r.best ? [`• Descuento pack ${r.best.pack.name}: −${fmt(r.sum - r.best.total)}/mes`] : [])
+    .concat(["", `Total: ${fmt(amount)}${unit}${state.yearly ? " (pago anual)" : ""}`]).join("\n");
+
+  try { localStorage.setItem("pp-plan", JSON.stringify({ selected: [...state.selected], people: state.people, yearly: state.yearly })); } catch (e) {}
+}
+
+document.getElementById("p-month").addEventListener("click", () => { state.yearly = false; update(); });
+document.getElementById("p-year").addEventListener("click", () => { state.yearly = true; update(); });
+document.getElementById("request").addEventListener("click", () => {
+  document.getElementById("request-box").hidden = false;
+  window.open("https://wa.me/59892060245?text=" + encodeURIComponent(document.getElementById("summary-text").value), "_blank", "noopener");
+});
+document.getElementById("copy").addEventListener("click", e => {
+  const ta = document.getElementById("summary-text"), btn = e.currentTarget;
+  navigator.clipboard.writeText(ta.value)
+    .then(() => { btn.textContent = "Copiado"; setTimeout(() => btn.textContent = "Copiar resumen", 1800); })
+    .catch(() => { ta.focus(); ta.select(); btn.textContent = "Copialo con Ctrl/Cmd + C"; });
+});
+
+renderAddons();
+renderPacks();
+update();
+</script>
+</body>
+</html>

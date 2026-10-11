@@ -7,6 +7,7 @@ const navLinks = [
   { label: 'Ranking', href: '#ranking' },
   { label: 'Entrenadores', href: '#entrenadores' },
   { label: 'Torneos', href: '#torneos' },
+  { label: 'Precios', href: '/precios' },
   { label: 'Contacto', href: '#contacto' },
 ]
 
