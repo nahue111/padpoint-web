@@ -206,6 +206,8 @@ tr.team-row .c-price { text-align: right; }
 tr.team-row .stepper { margin-left: auto; }
 tr.divider td { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--blue-50); padding-top: 22px; padding-bottom: 10px; background: var(--white); }
 tr.soon td { opacity: .6; }
+.fee-note { font-size: 15px; line-height: 1.55; background: var(--blue-wash); color: var(--blue); border-radius: 12px; padding: 16px 18px; }
+.fee-note strong { font-weight: 600; }
 .soon-tag { display: inline-block; margin-left: 8px; font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); background: var(--blue-wash); border-radius: 999px; padding: 2px 8px; vertical-align: 2px; opacity: 1; }
 .f-soon { color: var(--muted); }
 .box:disabled:not(:checked) { background: var(--soft); border-color: var(--line); cursor: not-allowed; }
@@ -263,12 +265,7 @@ tr.soon td { opacity: .6; }
       </div>
     </div>
 
-    <div class="section-head">
-      <span class="eyebrow"><img src="/pelota.webp" alt="">Packs</span>
-      <h2>Packs de extras</h2>
-      <p>Si vas a usar varios extras, el pack te sale más barato.</p>
-    </div>
-    <div class="packs" id="packs"></div>
+    <p class="fee-note"><strong>Además, cobramos un 2,5% por cada reserva que se haga desde la app.</strong> Las reservas que cargás vos desde el panel no pagan comisión.</p>
   </div>
 
   <aside class="card summary" id="resumen" aria-labelledby="sum-title">
@@ -297,7 +294,7 @@ tr.soon td { opacity: .6; }
       <textarea class="copy-area" id="summary-text" readonly aria-label="Resumen del plan"></textarea>
       <button type="button" class="btn btn-ghost" id="copy" style="margin-top:8px">Copiar resumen</button>
     </div>
-    <p class="fine">Precios en dólares, sin impuestos.</p>
+    <p class="fine">Precios en dólares, sin impuestos. Además, 2,5% por cada reserva hecha desde la app.</p>
   </aside>
 </main>
 
@@ -344,10 +341,7 @@ const ADDONS = [
 const SOON = [{ name: "Cámaras", desc: "Grabá los partidos y compartí las jugadas desde la app." }];
 const PER_PERSON = 2;
 const MAX_TEAM = 30;
-const PACKS = [
-  { id: "gestion", name: "Gestión", price: 25, items: ["accounting", "promotions", "coupons"], desc: "Contabilidad y deudores, Promociones y Cuponeras." },
-  { id: "pro", name: "Pro", price: 65, items: ADDONS.map(a => a.id), desc: "Todas las funciones extra." },
-];
+const PACKS = [];
 
 const state = { selected: new Set(), people: 1, yearly: false };
 try {
@@ -409,26 +403,6 @@ function renderRows() {
   document.getElementById("plus").addEventListener("click", () => { state.people = Math.min(MAX_TEAM, state.people + 1); update(); });
 }
 
-function renderPacks() {
-  document.getElementById("packs").innerHTML = PACKS.map(pk => {
-    const loose = pk.items.reduce((s, i) => s + addonById(i).price, 0);
-    return `<div class="card pack">
-      <span class="addon-label">Pack de extras</span>
-      <h3><span>${pk.name}</span><span class="price num">${fmt(pk.price)}<small> /mes</small></span></h3>
-      <p>${pk.desc}</p>
-      <span class="was">Por separado <s class="num">${fmt(loose)}</s> · ahorrás ${fmt(loose - pk.price)}</span>
-      <button type="button" class="btn" data-pack="${pk.id}">Sumar pack ${pk.name}</button>
-    </div>`;
-  }).join("");
-  document.querySelectorAll("[data-pack]").forEach(b => b.addEventListener("click", () => applyPack(b.dataset.pack)));
-}
-
-function applyPack(id) {
-  PACKS.find(p => p.id === id).items.forEach(i => state.selected.add(i));
-  update();
-  document.getElementById("resumen").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
-}
-
 function update() {
   ADDONS.forEach(a => {
     const on = state.selected.has(a.id);
@@ -476,7 +450,7 @@ function update() {
     .concat(extraPeople() ? [`• ${extraPeople()} personas extra en el equipo: ${fmt(teamPrice())}/mes`] : [])
     .concat(r.picked.map(a => `• ${a.name}: ${fmt(a.price)}/mes`))
     .concat(r.best ? [`• Descuento pack ${r.best.pack.name}: −${fmt(r.addonSum - r.best.total)}/mes`] : [])
-    .concat(["", `Total: ${fmt(amount)}${unit}${state.yearly ? " (pago anual)" : ""}`]).join("\n");
+    .concat(["", `Total: ${fmt(amount)}${unit}${state.yearly ? " (pago anual)" : ""}`, "+ 2,5% por cada reserva hecha desde la app"]).join("\n");
 
   try { localStorage.setItem("pp-plan-v2", JSON.stringify({ selected: [...state.selected], people: state.people, yearly: state.yearly })); } catch (e) {}
 }
@@ -495,7 +469,6 @@ document.getElementById("copy").addEventListener("click", e => {
 });
 
 renderRows();
-renderPacks();
 update();
 </script>
 </body>
